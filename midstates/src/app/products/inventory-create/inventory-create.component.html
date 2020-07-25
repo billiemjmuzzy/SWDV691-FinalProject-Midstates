@@ -9,73 +9,95 @@
           </h5>
         </mdb-card-header>
 
-        <!--Card content-->
         <mdb-card-body class="px-lg-5 pt-0">
-          <!-- Form -->
           <form class="text-center" style="color: #757575;">
-            <!-- Name -->
+            <!-- Item Name -->
             <div class="md-form mt-3">
-              <input
-                type="text"
-                id="materialContactFormName"
-                class="form-control"
-                mdbInput
-              />
-              <label for="materialContactFormName">Name</label>
+              <input type="text" id="itemName" class="form-control" mdbInput />
+              <label for="itemName"> Item Name</label>
             </div>
 
-            <!-- E-mail -->
-            <div class="md-form">
-              <input
-                type="email"
-                id="materialContactFormEmail"
-                class="form-control"
-                mdbInput
-              />
-              <label for="materialContactFormEmail">E-mail</label>
+            <!-- Quantity -->
+            <div class="md-form mt-3">
+              <input type="number" id="qty" class="form-control" mdbInput />
+              <label for="qty"> Quantity</label>
             </div>
 
-            <!-- Subject -->
-            <span>Subject</span>
-            <div class="row">
-              <div class="col-md-12 mx-auto">
-                <mdb-select
-                  [options]="optionsSelect"
-                  placeholder="Choose your option"
-                ></mdb-select>
+            <!-- Price -->
+            <div class="md-form mt-3">
+              <input type="number" id="price" class="form-control" mdbInput />
+              <label for="qty">Price</label>
+            </div>
+
+            <!-- SKU -->
+            <div class="md-form mt-3">
+              <input type="text" id="sku" class="form-control" mdbInput />
+              <label for="sku"> SKU</label>
+            </div>
+
+            <!--Image-->
+            <div class="file-field md-form">
+              <div
+                mdbBtn
+                floating="true"
+                size="md"
+                color="info"
+                mdbWavesEffect
+              >
+                <mdb-icon
+                  fas
+                  icon="cloud-upload-alt"
+                  aria-hidden="true"
+                ></mdb-icon>
+                <input
+                  type="file"
+                  mdbFileSelect
+                  (uploadOutput)="onUploadOutput($event)"
+                  [uploadInput]="uploadInput"
+                />
+              </div>
+              <div class="file-path-wrapper mt-3">
+                <input
+                  class="file-path"
+                  type="text"
+                  placeholder="Upload your image"
+                  [value]="showFiles()"
+                />
               </div>
             </div>
+            <button
+              mdbBtn
+              type="button"
+              color="info"
+              class="waves-light"
+              (click)="startUpload()"
+              mdbWavesEffect
+            >
+              Start uploading
+            </button>
 
-            <!--Message-->
+            <!--Description-->
             <div class="md-form">
               <textarea
                 type="text"
-                id="materialContactFormMessage"
+                id="description"
                 class="form-control md-textarea"
                 mdbInput
               ></textarea>
-              <label for="materialContactFormMessage">Message</label>
+              <label for="description">Description</label>
             </div>
 
-            <!-- Copy -->
-            <div class="row">
-              <div class="col-md-6 mx-auto d-flex justify-content-center">
-                <mdb-checkbox>Send me a copy of this message</mdb-checkbox>
-              </div>
-            </div>
 
             <!-- Send button -->
             <button
               mdbBtn
               color="info"
-              outline="true"
-              rounded="true"
               block="true"
               class="z-depth-0 my-4 waves-effect"
               mdbWavesEffect
               type="submit"
             >
-              Send
+              Submit
             </button>
           </form>
           <!-- Form -->
