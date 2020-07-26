@@ -13,6 +13,10 @@ export class InventoryCreateComponent implements OnInit {
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
   dragOver: boolean;
+  onAddInventory() {
+    alert("Inventory Added");
+
+  }
 
   constructor() {
     this.files = [];
