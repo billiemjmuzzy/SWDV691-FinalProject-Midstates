@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
+import {Inventory} from '../inventory.model'
 
 @Component({
   selector: 'app-inventory-create',
@@ -16,16 +17,16 @@ export class InventoryCreateComponent implements OnInit {
 
   enteredImage = '';
   enteredBrand = '';
-  enteredYear = '';
-  enteredHours = '';
+  enteredYear = 0;
+  enteredHours = 0;
   enteredCondition = '';
   enteredSerial = '';
-  enteredPrice = '';
+  enteredPrice = 0;
   enteredDescription = '';
-  @Output() inventoryCreated = new EventEmitter();
+  @Output() inventoryCreated = new EventEmitter<Inventory>();
 
   onAddInventory() {
-    const inventory = {
+    const inventory: Inventory = {
       image: this.enteredImage,
       brand: this.enteredBrand,
       year: this.enteredYear,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Inventory} from './products/inventory.model'
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'midstates';
-  storedInventories = [];
+  storedInventories: Inventory[] = [];
 
   onAddInventory(inventory) {
     this.storedInventories.push(inventory);
