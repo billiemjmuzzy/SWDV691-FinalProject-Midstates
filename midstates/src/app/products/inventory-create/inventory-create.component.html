@@ -9,9 +9,14 @@
           </h5>
         </mdb-card-header>
         <mdb-card-body class="px-lg-5 pt-0">
-          <form class="text-center" style="color: #757575;">
+          <form
+            (submit)="onAddInventory(postForm)"
+            #postForm="ngForm"
+            class="text-center"
+            style="color: #757575;"
+          >
             <!--Image-->
-            <!-- <div class="file-field md-form">
+            <div class="file-field md-form">
               <div
                 mdbBtn
                 floating="true"
@@ -30,7 +35,7 @@
                   mdbFileSelect
                   (uploadOutput)="onUploadOutput($event)"
                   [uploadInput]="uploadInput"
-                  [(ngModel)]="enteredImage"
+                  ngModel
                 />
               </div>
               <div class="file-path-wrapper mt-3">
@@ -52,7 +57,7 @@
               mdbWavesEffect
             >
               Start uploading
-            </button> -->
+            </button>
 
             <!-- Brand -->
             <div class="md-form mt-3">
@@ -62,7 +67,7 @@
                 name="brand"
                 class="form-control"
                 mdbInput
-                [(ngModel)]="this.enteredBrand"
+                ngModel
               />
               <label for="brand"> Brand </label>
             </div>
@@ -75,7 +80,7 @@
                 name="year"
                 class="form-control"
                 mdbInput
-                [(ngModel)]="enteredYear"
+                ngModel
               />
               <label for="year"> Year</label>
             </div>
@@ -88,7 +93,7 @@
                 name="hours"
                 class="form-control"
                 mdbInput
-                [(ngModel)]="enteredHours"
+                ngModel
               />
               <label for="hours"> Hours</label>
             </div>
@@ -101,7 +106,7 @@
                 name="price"
                 class="form-control"
                 mdbInput
-                [(ngModel)]="enteredPrice"
+                ngModel
               />
               <label for="price">Price</label>
             </div>
@@ -114,7 +119,7 @@
                 name="serial"
                 class="form-control"
                 mdbInput
-                [(ngModel)]="enteredSerial"
+                ngModel
               />
               <label for="serial"> Serial</label>
             </div>
@@ -127,14 +132,13 @@
                 class="form-control md-textarea"
                 name="description"
                 mdbInput
-                [(ngModel)]="enteredDescription"
+                ngModel
               ></textarea>
               <label for="description">Description</label>
             </div>
 
             <!-- Send button -->
             <button
-              (click)="onAddInventory()"
               mdbBtn
               color="primary"
               block="true"

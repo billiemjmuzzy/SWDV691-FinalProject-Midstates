@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import {NgForm} from "@angular/forms"
 import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
 import {Inventory} from '../inventory.model'
@@ -25,16 +26,16 @@ export class InventoryCreateComponent implements OnInit {
   enteredDescription = '';
   @Output() inventoryCreated = new EventEmitter<Inventory>();
 
-  onAddInventory() {
+  onAddInventory(form: NgForm) {
     const inventory: Inventory = {
-      image: this.enteredImage,
-      brand: this.enteredBrand,
-      year: this.enteredYear,
-      hours: this.enteredHours,
-      condition: this.enteredCondition,
-      serial: this.enteredSerial,
-      price: this.enteredPrice,
-      description: this.enteredDescription
+      image: form.value.image,
+      brand: form.value.brand,
+      year: form.value.year,
+      hours: form.value.hours,
+      condition: form.value.condition,
+      serial: form.value.serial,
+      price:form.value.price,
+      description: form.value.description
     };
     this.inventoryCreated.emit(inventory);
 
