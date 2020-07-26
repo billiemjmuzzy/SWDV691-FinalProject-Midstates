@@ -1,0 +1,171 @@
+<content>
+  <!-- Add a new Inventory item -->
+  <div class="row">
+    <div class="col-md-8 mt-5 mx-auto">
+      <mdb-card class="">
+        <mdb-card-header class="brand-color white-text text-center py-4">
+          <h5>
+            <strong>Add Inventory</strong>
+          </h5>
+        </mdb-card-header>
+        <mdb-card-body class="px-lg-5 pt-0">
+          <form
+            (submit)="onAddInventory(postForm)"
+            #postForm="ngForm"
+            class="text-center"
+            style="color: #757575;"
+          >
+            <!--Image-->
+            <div class="file-field md-form">
+              <div
+                mdbBtn
+                floating="true"
+                size="md"
+                color="primary"
+                mdbWavesEffect
+              >
+                <mdb-icon
+                  fas
+                  icon="cloud-upload-alt"
+                  aria-hidden="true"
+                ></mdb-icon>
+                <input
+                  type="file"
+                  name="image"
+                  mdbFileSelect
+                  (uploadOutput)="onUploadOutput($event)"
+                  [uploadInput]="uploadInput"
+                  ngModel
+                />
+              </div>
+              <div class="file-path-wrapper mt-3">
+                <input
+                  class="file-path"
+                  type="text"
+                  name="image"
+                  placeholder="Image- Click icon on left to upload your image"
+                  [value]="showFiles()"
+                />
+              </div>
+            </div>
+            <button
+              mdbBtn
+              type="button"
+              color="primary"
+              class="waves-light"
+              (click)="startUpload()"
+              mdbWavesEffect
+            >
+              Start uploading
+            </button>
+
+            <!-- Brand -->
+            <div class="md-form mt-3">
+              <input
+                type="text"
+                id="brand"
+                name="brand"
+                class="form-control"
+                mdbInput
+                ngModel
+                required
+              />
+              <label for="brand"> Brand </label>
+            </div>
+
+            <!-- Year -->
+            <div class="md-form mt-3">
+              <input
+                type="number"
+                id="year"
+                name="year"
+                class="form-control"
+                mdbInput
+                ngModel
+              />
+              <label for="year"> Year</label>
+            </div>
+
+            <!-- Hours -->
+            <div class="md-form mt-3">
+              <input
+                type="number"
+                id="hours"
+                name="hours"
+                class="form-control"
+                mdbInput
+                ngModel
+              />
+              <label for="hours"> Hours</label>
+            </div>
+
+            <!-- Price -->
+            <div class="md-form mt-3">
+              <input
+                type="number"
+                id="price"
+                name="price"
+                class="form-control"
+                mdbInput
+                ngModel
+              />
+              <label for="price">Price</label>
+            </div>
+
+            <!-- Serial -->
+            <div class="md-form mt-3">
+              <input
+                type="text"
+                id="serial"
+                name="serial"
+                class="form-control"
+                mdbInput
+                ngModel
+              />
+              <label for="serial"> Serial</label>
+            </div>
+
+             <!-- Condition -->
+             <div class="md-form mt-3">
+              <input
+                type="text"
+                id="condition"
+                name="condition"
+                class="form-control"
+                mdbInput
+                ngModel
+              />
+              <label for="brand"> Brand </label>
+            </div>
+
+            <!--Description-->
+            <div class="md-form">
+              <textarea
+                type="text"
+                id="description"
+                class="form-control md-textarea"
+                name="description"
+                mdbInput
+                ngModel
+              ></textarea>
+              <label for="description">Description</label>
+            </div>
+
+            <!-- Send button -->
+            <button
+              mdbBtn
+              color="primary"
+              block="true"
+              class="z-depth-0 my-4 waves-effect"
+              mdbWavesEffect
+              type="submit"
+            >
+              Submit
+            </button>
+          </form>
+          <!-- Form -->
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
+</content>
