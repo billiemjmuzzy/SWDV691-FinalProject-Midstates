@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'midstates';
+  storedInventories = [];
+
+  onAddInventory(inventory) {
+    this.storedInventories.push(inventory);
+
+  }
 
 }

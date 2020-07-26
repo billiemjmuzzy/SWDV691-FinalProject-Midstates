@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-inventory-view',
@@ -9,5 +9,6 @@ export class InventoryViewComponent {
 
   elements: any = []
   headElements = ['image', 'brand', 'year', 'hours', 'condition', 'serial', 'price', 'description'];
+  @Input() inventories = [];
 
 }

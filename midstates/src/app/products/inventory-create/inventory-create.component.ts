@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
 
@@ -14,12 +14,30 @@ export class InventoryCreateComponent implements OnInit {
   humanizeBytes: Function;
   dragOver: boolean;
 
-  enteredValue = '';
-  newInventory = '';
+  enteredImage = '';
+  enteredBrand = '';
+  enteredYear = '';
+  enteredHours = '';
+  enteredCondition = '';
+  enteredSerial = '';
+  enteredPrice = '';
+  enteredDescription = '';
+  @Output() inventoryCreated = new EventEmitter();
 
   onAddInventory() {
+    const inventory = {
+      image: this.enteredImage,
+      brand: this.enteredBrand,
+      year: this.enteredYear,
+      hours: this.enteredHours,
+      condition: this.enteredCondition,
+      serial: this.enteredSerial,
+      price: this.enteredPrice,
+      description: this.enteredDescription
+    };
+    this.inventoryCreated.emit(inventory);
 
-    this.newInventory = this.enteredValue;
+
   }
 
   constructor() {

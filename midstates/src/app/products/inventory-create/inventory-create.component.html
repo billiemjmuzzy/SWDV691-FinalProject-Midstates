@@ -10,80 +10,114 @@
         </mdb-card-header>
         <mdb-card-body class="px-lg-5 pt-0">
           <form class="text-center" style="color: #757575;">
-
-                        <!--Image-->
-                        <div class="file-field md-form">
-                          <div
-                            mdbBtn
-                            floating="true"
-                            size="md"
-                            color="primary"
-                            mdbWavesEffect
-                          >
-                            <mdb-icon
-                              fas
-                              icon="cloud-upload-alt"
-                              aria-hidden="true"
-                            ></mdb-icon>
-                            <input
-                              type="file"
-                              mdbFileSelect
-                              (uploadOutput)="onUploadOutput($event)"
-                              [uploadInput]="uploadInput"
-                            />
-                          </div>
-                          <div class="file-path-wrapper mt-3">
-                            <input
-                              class="file-path"
-                              type="text"
-                              placeholder="Image- Click icon on left to upload your image"
-                              [value]="showFiles()"
-                            />
-                          </div>
-                        </div>
-                        <button
-                          mdbBtn
-                          type="button"
-                          color="primary"
-                          class="waves-light"
-                          (click)="startUpload()"
-                          mdbWavesEffect
-                        >
-                          Start uploading
-                        </button>
+            <!--Image-->
+            <!-- <div class="file-field md-form">
+              <div
+                mdbBtn
+                floating="true"
+                size="md"
+                color="primary"
+                mdbWavesEffect
+              >
+                <mdb-icon
+                  fas
+                  icon="cloud-upload-alt"
+                  aria-hidden="true"
+                ></mdb-icon>
+                <input
+                  type="file"
+                  name="image"
+                  mdbFileSelect
+                  (uploadOutput)="onUploadOutput($event)"
+                  [uploadInput]="uploadInput"
+                  [(ngModel)]="enteredImage"
+                />
+              </div>
+              <div class="file-path-wrapper mt-3">
+                <input
+                  class="file-path"
+                  type="text"
+                  name="image"
+                  placeholder="Image- Click icon on left to upload your image"
+                  [value]="showFiles()"
+                />
+              </div>
+            </div>
+            <button
+              mdbBtn
+              type="button"
+              color="primary"
+              class="waves-light"
+              (click)="startUpload()"
+              mdbWavesEffect
+            >
+              Start uploading
+            </button> -->
 
             <!-- Brand -->
             <div class="md-form mt-3">
-              <input type="text" id="brand" class="form-control" mdbInput />
+              <input
+                type="text"
+                id="brand"
+                name="brand"
+                class="form-control"
+                mdbInput
+                [(ngModel)]="enteredBrand"
+              />
               <label for="brand"> Brand </label>
             </div>
 
             <!-- Year -->
             <div class="md-form mt-3">
-              <input type="number" id="year" class="form-control" mdbInput />
+              <input
+                type="number"
+                id="year"
+                name="year"
+                class="form-control"
+                mdbInput
+                [(ngModel)]="enteredYear"
+              />
               <label for="year"> Year</label>
             </div>
 
-
             <!-- Hours -->
             <div class="md-form mt-3">
-              <input type="number" id="hours" class="form-control" mdbInput />
+              <input
+                type="number"
+                id="hours"
+                name="hours"
+                class="form-control"
+                mdbInput
+                [(ngModel)]="enteredHours"
+              />
               <label for="hours"> Hours</label>
             </div>
 
             <!-- Price -->
             <div class="md-form mt-3">
-              <input type="number" id="price" class="form-control" mdbInput />
+              <input
+                type="number"
+                id="price"
+                name="price"
+                class="form-control"
+                mdbInput
+                [(ngModel)]="enteredPrice"
+              />
               <label for="price">Price</label>
             </div>
 
-
             <!-- Serial -->
             <div class="md-form mt-3">
-              <input type="text" id="serial" class="form-control" mdbInput />
+              <input
+                type="text"
+                id="serial"
+                name="serial"
+                class="form-control"
+                mdbInput
+                [(ngModel)]="enteredSerial"
+              />
               <label for="serial"> Serial</label>
             </div>
-
 
             <!--Description-->
             <div class="md-form">
@@ -93,7 +127,7 @@
                 class="form-control md-textarea"
                 name="description"
                 mdbInput
-                [(ngModel)]="enteredValue"
+                [(ngModel)]="enteredDescription"
               ></textarea>
               <label for="description">Description</label>
             </div>
