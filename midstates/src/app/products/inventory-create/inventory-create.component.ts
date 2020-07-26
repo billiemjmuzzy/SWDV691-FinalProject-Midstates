@@ -1,15 +1,15 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import {NgForm} from "@angular/forms"
+import { Component, EventEmitter } from '@angular/core';
+import { NgForm } from "@angular/forms"
 import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
-import {Inventory} from '../inventory.model'
+import { InventoriesService } from '../inventories.service';
 
 @Component({
   selector: 'app-inventory-create',
   templateUrl: './inventory-create.component.html',
   styleUrls: ['./inventory-create.component.css']
 })
-export class InventoryCreateComponent implements OnInit {
+export class InventoryCreateComponent {
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
@@ -24,28 +24,16 @@ export class InventoryCreateComponent implements OnInit {
   enteredSerial = '';
   enteredPrice = 0;
   enteredDescription = '';
-  @Output() inventoryCreated = new EventEmitter<Inventory>();
 
-  onAddInventory(form: NgForm) {
-    const inventory: Inventory = {
-      image: form.value.image,
-      brand: form.value.brand,
-      year: form.value.year,
-      hours: form.value.hours,
-      condition: form.value.condition,
-      serial: form.value.serial,
-      price:form.value.price,
-      description: form.value.description
-    };
-    this.inventoryCreated.emit(inventory);
-
-
-  }
-
-  constructor() {
+  constructor(public inventoriesService: InventoriesService) {
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
+  }
+
+  onAddInventory(form: NgForm) {
+    this.inventoriesService.addInventory(form.value.image, form.value.brand, form.value.year, form.value.hours, form.value.condition, form.value.serial, form.value.price, form.value.description);
+
   }
 
   showFiles() {
@@ -95,7 +83,4 @@ export class InventoryCreateComponent implements OnInit {
     this.showFiles();
   }
 
-  ngOnInit() {
-
-  }
 }

@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MDBBootstrapModulesPro, MDBSpinningPreloader } from 'ng-uikit-pro-standard';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
@@ -19,8 +19,8 @@ import { InventoryViewComponent } from './products/inventory-view/inventory-view
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
+    BrowserAnimationsModule,
     MDBBootstrapModulesPro.forRoot()
   ],
   providers: [
