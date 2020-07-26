@@ -25,7 +25,7 @@ export class InventoryViewComponent implements OnInit, AfterViewInit {
   @ViewChild('row', { static: true }) row: ElementRef;
 
   elements: any = [];
-  headElements = ['id', 'first', 'last', 'handle'];
+  headElements = ['name', 'description', 'image', 'quantity', 'sku', 'price',''];
 
   searchText: string = '';
   previous: string;
