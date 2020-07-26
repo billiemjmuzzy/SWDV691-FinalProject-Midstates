@@ -13,8 +13,11 @@ export class InventoryCreateComponent implements OnInit {
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
   dragOver: boolean;
+
+  newInventory = 'NO CONTENT';
+
   onAddInventory() {
-    alert("Inventory Added");
+    this.newInventory = 'This is some test content';
 
   }
 

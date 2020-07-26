@@ -83,10 +83,10 @@
                 id="description"
                 class="form-control md-textarea"
                 mdbInput
+                [value]="newInventory"
               ></textarea>
               <label for="description">Description</label>
             </div>
-
 
             <!-- Send button -->
             <button
@@ -100,11 +100,13 @@
             >
               Submit
             </button>
+            <p>{{newInventory}}</p>
           </form>
           <!-- Form -->
         </mdb-card-body>
       </mdb-card>
     </div>
+
   </div>
   <!-- Material form contact -->
 </content>
