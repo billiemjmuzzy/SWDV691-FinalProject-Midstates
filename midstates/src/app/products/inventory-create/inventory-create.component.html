@@ -82,8 +82,9 @@
                 type="text"
                 id="description"
                 class="form-control md-textarea"
+                name="description"
                 mdbInput
-                [value]="newInventory"
+                [(ngModel)]="enteredValue"
               ></textarea>
               <label for="description">Description</label>
             </div>
@@ -100,13 +101,11 @@
             >
               Submit
             </button>
-            <p>{{newInventory}}</p>
+            <p>{{ newInventory }}</p>
           </form>
           <!-- Form -->
         </mdb-card-body>
       </mdb-card>
     </div>
-
   </div>
-  <!-- Material form contact -->
 </content>

@@ -14,11 +14,12 @@ export class InventoryCreateComponent implements OnInit {
   humanizeBytes: Function;
   dragOver: boolean;
 
+  enteredValue = '';
   newInventory = 'NO CONTENT';
 
   onAddInventory() {
-    this.newInventory = 'This is some test content';
 
+    this.newInventory = this.enteredValue;
   }
 
   constructor() {
