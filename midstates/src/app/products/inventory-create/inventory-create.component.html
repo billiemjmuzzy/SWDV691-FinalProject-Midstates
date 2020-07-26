@@ -8,73 +8,82 @@
             <strong>Add Inventory</strong>
           </h5>
         </mdb-card-header>
-
         <mdb-card-body class="px-lg-5 pt-0">
           <form class="text-center" style="color: #757575;">
-            <!-- Item Name -->
+
+                        <!--Image-->
+                        <div class="file-field md-form">
+                          <div
+                            mdbBtn
+                            floating="true"
+                            size="md"
+                            color="primary"
+                            mdbWavesEffect
+                          >
+                            <mdb-icon
+                              fas
+                              icon="cloud-upload-alt"
+                              aria-hidden="true"
+                            ></mdb-icon>
+                            <input
+                              type="file"
+                              mdbFileSelect
+                              (uploadOutput)="onUploadOutput($event)"
+                              [uploadInput]="uploadInput"
+                            />
+                          </div>
+                          <div class="file-path-wrapper mt-3">
+                            <input
+                              class="file-path"
+                              type="text"
+                              placeholder="Image- Click icon on left to upload your image"
+                              [value]="showFiles()"
+                            />
+                          </div>
+                        </div>
+                        <button
+                          mdbBtn
+                          type="button"
+                          color="primary"
+                          class="waves-light"
+                          (click)="startUpload()"
+                          mdbWavesEffect
+                        >
+                          Start uploading
+                        </button>
+
+            <!-- Brand -->
             <div class="md-form mt-3">
-              <input type="text" id="itemName" class="form-control" mdbInput />
-              <label for="itemName"> Item Name</label>
+              <input type="text" id="brand" class="form-control" mdbInput />
+              <label for="brand"> Brand </label>
             </div>
 
-            <!-- Quantity -->
+            <!-- Year -->
             <div class="md-form mt-3">
-              <input type="number" id="qty" class="form-control" mdbInput />
-              <label for="qty"> Quantity</label>
+              <input type="number" id="year" class="form-control" mdbInput />
+              <label for="year"> Year</label>
+            </div>
+
+
+            <!-- Hours -->
+            <div class="md-form mt-3">
+              <input type="number" id="hours" class="form-control" mdbInput />
+              <label for="hours"> Hours</label>
             </div>
 
             <!-- Price -->
             <div class="md-form mt-3">
               <input type="number" id="price" class="form-control" mdbInput />
-              <label for="qty">Price</label>
+              <label for="price">Price</label>
             </div>
 
-            <!-- SKU -->
+
+            <!-- Serial -->
             <div class="md-form mt-3">
-              <input type="text" id="sku" class="form-control" mdbInput />
-              <label for="sku"> SKU</label>
+              <input type="text" id="serial" class="form-control" mdbInput />
+              <label for="serial"> Serial</label>
             </div>
 
-            <!--Image-->
-            <div class="file-field md-form">
-              <div
-                mdbBtn
-                floating="true"
-                size="md"
-                color="primary"
-                mdbWavesEffect
-              >
-                <mdb-icon
-                  fas
-                  icon="cloud-upload-alt"
-                  aria-hidden="true"
-                ></mdb-icon>
-                <input
-                  type="file"
-                  mdbFileSelect
-                  (uploadOutput)="onUploadOutput($event)"
-                  [uploadInput]="uploadInput"
-                />
-              </div>
-              <div class="file-path-wrapper mt-3">
-                <input
-                  class="file-path"
-                  type="text"
-                  placeholder="Upload your image"
-                  [value]="showFiles()"
-                />
-              </div>
-            </div>
-            <button
-              mdbBtn
-              type="button"
-              color="primary"
-              class="waves-light"
-              (click)="startUpload()"
-              mdbWavesEffect
-            >
-              Start uploading
-            </button>
 
             <!--Description-->
             <div class="md-form">
@@ -101,7 +110,6 @@
             >
               Submit
             </button>
-            <p>{{ newInventory }}</p>
           </form>
           <!-- Form -->
         </mdb-card-body>

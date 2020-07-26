@@ -15,7 +15,7 @@ export class InventoryCreateComponent implements OnInit {
   dragOver: boolean;
 
   enteredValue = '';
-  newInventory = 'NO CONTENT';
+  newInventory = '';
 
   onAddInventory() {
 
