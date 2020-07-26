@@ -32,6 +32,12 @@ export class InventoryCreateComponent {
   }
 
   onAddInventory(form: NgForm) {
+     //prevents form submission if invalid
+     if (form.invalid) {
+      return;
+    }
+
+
     this.inventoriesService.addInventory(form.value.image, form.value.brand, form.value.year, form.value.hours, form.value.condition, form.value.serial, form.value.price, form.value.description);
 
   }
