@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MDBBootstrapModulesPro, MDBSpinningPreloader } from 'ng-uikit-pro-standard';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -21,7 +22,8 @@ import { InventoryViewComponent } from './products/inventory-view/inventory-view
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    MDBBootstrapModulesPro.forRoot()
+    MDBBootstrapModulesPro.forRoot(),
+    HttpClientModule
   ],
   providers: [
     MDBSpinningPreloader

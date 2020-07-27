@@ -1,4 +1,5 @@
 export interface Inventory {
+  id: string,
   image: string;
   brand: string;
   year: number;

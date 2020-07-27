@@ -19,8 +19,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   constructor(public inventoriesService: InventoriesService) { }
 
   ngOnInit() {
-    this.inventories = this.inventoriesService.getInventories();
-
+    this.inventoriesService.getInventories();
     // create subscription
     this.inventoriesSub = this.inventoriesService.getInventoryUpdateListener()
       .subscribe((inventories: Inventory[]) => {
