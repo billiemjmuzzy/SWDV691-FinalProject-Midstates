@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Inventory } from './inventory.model';
 
@@ -13,17 +14,34 @@ export class InventoriesService {
   private inventoriesUpdated = new Subject<Inventory[]>();
 
   constructor(private http: HttpClient) { }
-
   /**
    * Get Inventories:
    * Gets all Inventory items.
    */
   getInventories() {
-    return this.http.get<{ message: string, inventories: Inventory[] }>('http://localhost:3000/api/inventories')
-      .subscribe((inventoryData) => {
-        this.inventories = inventoryData.inventories;
+    this.http
+      .get<{ message: string, inventories: any }>(
+        'http://localhost:3000/api/inventories'
+      )
+      .pipe(map((inventoryData) => {
+        return inventoryData.inventories.map(inventory => {
+          return {
+            id: inventory._id,
+            image: inventory.image,
+            brand: inventory.brand,
+            year: inventory.year,
+            hours: inventory.hours,
+            condition: inventory.condition,
+            serial: inventory.serial,
+            price: inventory.price,
+            description: inventory.description,
+            createdDate: inventory.createdDate
+          };
+        });
+      }))
+      .subscribe(transformedInventories => {
+        this.inventories = transformedInventories;
         this.inventoriesUpdated.next([...this.inventories]);
-
       });
   }
 
