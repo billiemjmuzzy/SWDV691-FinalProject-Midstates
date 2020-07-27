@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/inventories", (req, res, next) => {
-  const post = req.body;
+  const inventory = req.body;
   console.log(inventory);
   //everything is Ok, a new resource was created.
   res.status(201).json({
@@ -32,7 +32,7 @@ app.post("/api/inventories", (req, res, next) => {
   });
 });
 
-app.use("/api/inventories", (req, res, next) => {
+app.get("/api/inventories", (req, res, next) => {
   const inventories = [
     {
       id: 1,
