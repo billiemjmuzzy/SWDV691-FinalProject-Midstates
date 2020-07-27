@@ -1,6 +1,15 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+
 const app = express();
 
+// Parses the JSON data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded(
+  { extended:false }
+));
+
+// CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -12,6 +21,15 @@ app.use((req, res, next) => {
     "GET, POST, PATCH, DELETE, OPTIONS"
   );
   next();
+});
+
+app.post("/api/inventories", (req, res, next) => {
+  const post = req.body;
+  console.log(inventory);
+  //everything is Ok, a new resource was created.
+  res.status(201).json({
+    message: 'Inventory item added successfully'
+  });
 });
 
 app.use("/api/inventories", (req, res, next) => {
@@ -53,7 +71,7 @@ app.use("/api/inventories", (req, res, next) => {
         "maecenas ut massa quis augue luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida nisi",
     },
   ];
-
+  //everything is ok
   res.status(200).json({
     message: "Inventories fetched successfully!",
     inventories: inventories,
