@@ -1,4 +1,42 @@
-<h1>Inventory Items</h1>
+<div class="section col-md-8 mx-auto">
+    <div class="col-md-8 mx-auto">
+      <div class="md-form">
+        <input type="text" class="form-control" [(ngModel)]="searchText" (keyup)="searchItems()" id="search-input"
+               mdbInput>
+        <label for="search-input">Search</label>
+      </div>
+    </div>
+    <table mdbTable #tableEl="mdbTable" stickyHeader="true" hover="true" striped="true" class="z-depth-1">
+      <thead class="sticky-top">
+      <tr>
+        <th *ngFor="let head of headElements; let i = index" [mdbTableSort]="inventories" [sortBy]="headElements[i]"
+            scope="col">{{head | titlecase}} <mdb-icon fas icon="sort"></mdb-icon>
+        </th>
+      </tr>
+      </thead>
+      <tbody #row>
+      <tr mdbTableCol (rowCreated)="onRowCreate($event)" (rowRemoved)="onRowRemove($event)" *ngFor="let items of inventories; let i = index">
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.image}}</td>
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.brand}}</td>
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.year}}</td>
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.hours}}</td>
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.condition}}</td>
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.serial}}</td>
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.price}}</td>
+        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.description}}</td>
+      </tr>
+      </tbody>
+      <tfoot class="grey lighten-5 w-100">
+      <tr>
+        <td colspan="12">
+          <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="inventories"></mdb-table-pagination>
+        </td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+
+<!-- <h1>Inventory Items</h1>
 <hr>
 <table mdbTable *ngIf="inventories.length> 0">
   <thead>
@@ -20,15 +58,5 @@
   </tbody>
 </table>
 <p *ngIf="inventories.length <= 0">No inventory items added yet</p>
+ -->
 
-
-<!-- <mdb-accordion [multiple]="true" *ngIf="inventories.length > 0">
-  <mdb-accordion-item *ngFor="let item of inventories">
-    <mdb-accordion-item-head>
-      {{ item.brand }}
-    </mdb-accordion-item-head>
-    <mdb-accordion-item-body>
-      {{ item.description }}
-    </mdb-accordion-item-body>
-  </mdb-accordion-item>
-  <p class="info-text lead" *ngIf="inventories.length <= 0">No inventory items added yet</p> -->

@@ -8,10 +8,10 @@ const inventorySchema = mongoose.Schema({
     type: String,
   },
   year: {
-    type: Number,
+    type: String,
   },
   hours: {
-    type: Number,
+    type: String,
   },
   condition: {
     type: String,
@@ -20,7 +20,7 @@ const inventorySchema = mongoose.Schema({
     type: String,
   },
   price: {
-    type: Number,
+    type: String,
   },
   description: {
     type: String,
