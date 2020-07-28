@@ -40,7 +40,7 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
 
       });
 
-    //mdb data table
+    //populates data in the table if there are less than 25 rows
     for (let i = 1; i <= 25; i++) {
       this.inventories.push({
         id: 'ID',
@@ -58,8 +58,6 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     this.mdbTable.setDataSource(this.inventories);
     this.inventories = this.mdbTable.getDataSource();
     this.previous = this.mdbTable.getDataSource()
-
-
   }
 
   ngOnDestroy() {
@@ -76,7 +74,6 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
 
   addNewRow() {
     this.mdbTable.addRow({
-      id: 'ID' + this.inventories.length,
       image: 'Image' + this.inventories.length,
       brand: 'Brand' + this.inventories.length,
       year: 'Year' + this.inventories.length,
@@ -89,7 +86,7 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     this.emitDataSourceChange();
   }
   addNewRowAfter() {
-    // this.mdbTable.addRowAfter(1, { id: '2', first: 'Nowy', last: 'Row', handle: 'Kopytkowy' });
+    this.mdbTable.addRowAfter(1, { id: '2', first: 'Nowy', last: 'Row', handle: 'Kopytkowy' });
     this.mdbTable.getDataSource().forEach((el: any, index: any) => {
       el.id = (index + 1).toString();
     });
