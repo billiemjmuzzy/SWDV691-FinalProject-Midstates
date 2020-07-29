@@ -22,11 +22,10 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
 
   searchText: string = '';
   previous: string;
-
   maxVisibleItems: number = 10;
 
-
   constructor(public inventoriesService: InventoriesService, private cdRef: ChangeDetectorRef) { }
+
   @HostListener('input') oninput() {
     this.mdbTablePagination.searchText = this.searchText;
   }
@@ -37,7 +36,6 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     this.inventoriesSub = this.inventoriesService.getInventoryUpdateListener()
       .subscribe((inventories: Inventory[]) => {
         this.inventories = inventories;
-
       });
 
     //populates data in the table if there are less than 25 rows
@@ -60,11 +58,13 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     this.previous = this.mdbTable.getDataSource()
   }
 
+
   ngOnDestroy() {
     // removes subscription and prevents memory links
     this.inventoriesSub.unsubscribe();
 
   }
+
   ngAfterViewInit() {
     this.mdbTablePagination.setMaxVisibleItemsNumberTo(this.maxVisibleItems);
     this.mdbTablePagination.calculateFirstItemIndex();
@@ -127,7 +127,7 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     if (this.searchText) {
-      this.inventories = this.mdbTable.searchLocalDataBy(this.searchText);
+      this.inventories = this.mdbTable.searchLocalDataByMultipleFields(this.searchText, ['brand', 'year']);
       this.mdbTable.setDataSource(prev);
     }
 

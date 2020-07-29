@@ -1,62 +1,110 @@
 <div class="section col-md-8 mx-auto">
-    <div class="col-md-8 mx-auto">
-      <div class="md-form">
-        <input type="text" class="form-control" [(ngModel)]="searchText" (keyup)="searchItems()" id="search-input"
-               mdbInput>
-        <label for="search-input">Search</label>
-      </div>
+  <div class="col-md-8 mx-auto">
+    <div class="md-form">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="searchText"
+        (keyup)="searchItems()"
+        id="search-input"
+        mdbInput
+      />
+      <label for="search-input">Search</label>
     </div>
-    <table mdbTable #tableEl="mdbTable" stickyHeader="true" hover="true" striped="true" class="z-depth-1">
-      <thead class="sticky-top">
+  </div>
+  <table
+    mdbTable
+    #tableEl="mdbTable"
+    stickyHeader="true"
+    hover="true"
+    striped="true"
+    class="z-depth-1"
+  >
+    <thead class="sticky-top">
       <tr>
-        <th *ngFor="let head of headElements; let i = index" [mdbTableSort]="inventories" [sortBy]="headElements[i]"
-            scope="col">{{head | titlecase}} <mdb-icon fas icon="sort"></mdb-icon>
+        <th [mdbTableSort]="inventories" [sortBy]="headElements[1]" scope="col">
+          Brand
+          <mdb-icon fas icon="sort"></mdb-icon>
         </th>
+        <th>Year</th>
+        <th>Hours</th>
+        <th>Condition</th>
+        <th>Serial</th>
+        <th>Price</th>
+        <th>Description</th>
       </tr>
-      </thead>
-      <tbody #row>
-      <tr mdbTableCol (rowCreated)="onRowCreate($event)" (rowRemoved)="onRowRemove($event)" *ngFor="let items of inventories; let i = index">
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.image}}</td>
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.brand}}</td>
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.year}}</td>
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.hours}}</td>
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.condition}}</td>
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.serial}}</td>
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.price}}</td>
-        <td *ngIf="i+1 >= mdbTablePagination.firstItemIndex && i < mdbTablePagination.lastItemIndex">{{items.description}}</td>
-      </tr>
-      </tbody>
-      <tfoot class="grey lighten-5 w-100">
-      <tr>
-        <td colspan="12">
-          <mdb-table-pagination [tableEl]="tableEl" paginationAlign="" [searchDataSource]="inventories"></mdb-table-pagination>
+    </thead>
+    <tbody #row>
+      <tr mdbTableCol *ngFor="let items of inventories; let i = index">
+        <td
+          *ngIf="
+            i + 1 >= mdbTablePagination.firstItemIndex &&
+            i < mdbTablePagination.lastItemIndex
+          "
+        >
+          {{ items.brand }}
+        </td>
+        <td
+          *ngIf="
+            i + 1 >= mdbTablePagination.firstItemIndex &&
+            i < mdbTablePagination.lastItemIndex
+          "
+        >
+          {{ items.year }}
+        </td>
+        <td
+          *ngIf="
+            i + 1 >= mdbTablePagination.firstItemIndex &&
+            i < mdbTablePagination.lastItemIndex
+          "
+        >
+          {{ items.hours }}
+        </td>
+        <td
+          *ngIf="
+            i + 1 >= mdbTablePagination.firstItemIndex &&
+            i < mdbTablePagination.lastItemIndex
+          "
+        >
+          {{ items.condition }}
+        </td>
+        <td
+          *ngIf="
+            i + 1 >= mdbTablePagination.firstItemIndex &&
+            i < mdbTablePagination.lastItemIndex
+          "
+        >
+          {{ items.serial }}
+        </td>
+        <td
+          *ngIf="
+            i + 1 >= mdbTablePagination.firstItemIndex &&
+            i < mdbTablePagination.lastItemIndex
+          "
+        >
+          {{ items.price }}
+        </td>
+        <td
+          *ngIf="
+            i + 1 >= mdbTablePagination.firstItemIndex &&
+            i < mdbTablePagination.lastItemIndex
+          "
+        >
+          {{ items.description }}
         </td>
       </tr>
-      </tfoot>
-    </table>
-  </div>
-
-<!-- <h1>Inventory Items</h1>
-<hr>
-<table mdbTable *ngIf="inventories.length> 0">
-  <thead>
-    <tr>
-      <th *ngFor="let head of headElements" scope="col">{{ head }}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr mdbTableCol *ngFor="let item of inventories">
-      <td>{{item.image}}</td>
-      <td>{{ item.brand }}</td>
-      <td>{{ item.year }}</td>
-      <td>{{ item.hours }}</td>
-      <td>{{ item.condition }}</td>
-      <td>{{ item.serial }}</td>
-      <td>{{ item.price }}</td>
-      <td>{{ item.description }}</td>
-    </tr>
-  </tbody>
-</table>
-<p *ngIf="inventories.length <= 0">No inventory items added yet</p>
- -->
+    </tbody>
+    <tfoot class="grey lighten-5 w-100">
+      <tr>
+        <td colspan="12">
+          <mdb-table-pagination
+            [tableEl]="tableEl"
+            paginationAlign=""
+            [searchDataSource]="inventories"
+          ></mdb-table-pagination>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
 

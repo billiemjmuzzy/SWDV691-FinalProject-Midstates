@@ -52,16 +52,16 @@ export class InventoriesService {
   /**
    * Add Inventory:
    * Posts all inventory items
-   * @param image string
+   * @param image -- string
    * @param brand string
-   * @param year number
-   * @param hours number
+   * @param year string
+   * @param hours string
    * @param condition string
    * @param serial string
-   * @param price number
+   * @param price string
    * @param description string
    */
-  addInventory(image: string, brand: string, year: number, hours: number, condition: string, serial: string, price: number, description: string) {
+  addInventory(image: string, brand: string, year: string, hours: string, condition: string, serial: string, price: string, description: string) {
     const inventory: Inventory = {
       id: null,
       image: image,
