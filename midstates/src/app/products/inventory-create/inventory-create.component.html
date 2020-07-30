@@ -1,6 +1,5 @@
 <content>
   <!-- Add a new Inventory item -->
-
   <div class="row">
     <div class="col-md-3 mt-5 mx-auto">
       <!-- //TODO add link back to dashboard -->
@@ -10,12 +9,10 @@
   </div>
   <div class="row">
     <div class="col-md-6 mt-5 mx-auto">
+      <h1 class="text-center display-4 mb-4">
+        <span class="blue-accent-text"> Add </span> Inventory
+      </h1>
       <mdb-card>
-        <mdb-card-header class="brand-color white-text text-center py-4">
-          <h5>
-            <strong>Add Inventory</strong>
-          </h5>
-        </mdb-card-header>
         <mdb-card-body class="px-lg-5 pt-0">
           <form
             (submit)="onAddInventory(postForm)"

@@ -35,6 +35,14 @@ div.btn-primary, button.btn-primary  {
   background-color: $brand-color !important;
 }
 
+div.btn-secondary, button.btn-secondary  {
+  background-color: $blue-accent !important;
+}
+button.btn-outline-secondary {
+  border-color: $blue-accent !important;
+  color: $blue-accent !important;
+
+}
 
 
 $skins: () !default;
@@ -54,7 +62,7 @@ $skins: map-merge((
     "skin-mask-strong": #fff,
     "skin-sn-child": #fff,
     "skin-btn-primary": $brand-color,
-    "skin-btn-secondary": #fff,
+    "skin-btn-secondary":$blue-accent,
     "skin-btn-default": $brand-color,
     "skin-text": #fff
 
