@@ -98,6 +98,9 @@
                                 <a href="#addInventory">addInventory</a>
                             </li>
                             <li>
+                                <a href="#deleteInventory">deleteInventory</a>
+                            </li>
+                            <li>
                                 <a href="#getInventories">getInventories</a>
                             </li>
                             <li>
@@ -191,8 +194,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">src/app/products/inventories.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/app/products/inventories.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -363,6 +366,83 @@ Posts all inventory items</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="deleteInventory"></a>
+                    <span class="name">
+                        <b>
+                            deleteInventory
+                        </b>
+                        <a href="#deleteInventory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteInventory(inventoryId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/app/products/inventories.service.ts:89</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Deletes the inventory item</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>inventoryId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>ID of Inventory Item</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getInventories"></a>
                     <span class="name">
                         <b>
@@ -423,8 +503,8 @@ Gets all Inventory items.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/app/products/inventories.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/products/inventories.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -533,8 +613,7 @@ export class InventoriesService {
    * Gets all Inventory items.
    */
   getInventories() {
-    this.http
-      .get&lt;{ message: string, inventories: any }&gt;(
+    this.http.get&lt;{ message: string, inventories: any }&gt;(
         &#x27;http://localhost:3000/api/inventories&#x27;
       )
       .pipe(map((inventoryData) &#x3D;&gt; {
@@ -587,12 +666,26 @@ export class InventoriesService {
       price: price,
       description: description
     };
-    this.http.post&lt;{ message: string }&gt;(&#x27;http://localhost:3000/api/inventories&#x27;, inventory)
-      .subscribe((responseData) &#x3D;&gt; {
-        console.log(responseData.message);
+    this.http
+      .post&lt;{ message: string, inventoryId: string }&gt;(&#x27;http://localhost:3000/api/inventories&#x27;, inventory)
+      .subscribe(responseData &#x3D;&gt; {
+        const id &#x3D; responseData.inventoryId;
+        inventory.id &#x3D; id;
         this.inventories.push(inventory);
         this.inventoriesUpdated.next([...this.inventories]);
+      });
+  }
 
+  /**
+   * Deletes the inventory item
+   * @param {string} inventoryId  ID of Inventory Item
+   */
+  deleteInventory(inventoryId: string) {
+    this.http.delete(&quot;http://localhost:3000/api/inventories/&quot; + inventoryId)
+      .subscribe(() &#x3D;&gt; {
+        const updatedInventories &#x3D; this.inventories.filter(inventory &#x3D;&gt; inventory.id !&#x3D;&#x3D; inventoryId);
+        this.inventories &#x3D; updatedInventories;
+        this.inventoriesUpdated.next([...this.inventories]);
       });
   }
 }

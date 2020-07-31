@@ -5,6 +5,9 @@ import { MdbTableDirective, MdbTablePaginationComponent } from 'ng-uikit-pro-sta
 import { Inventory } from '../inventory.model';
 import { InventoriesService } from '../inventories.service';
 
+/**
+ * Inventory view component.
+ */
 @Component({
   selector: 'app-inventory-view',
   templateUrl: './inventory-view.component.html',
@@ -58,6 +61,12 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
     this.previous = this.mdbTable.getDataSource()
   }
 
+  /**
+   * Deletes the inventory item
+   */
+  onDelete(inventoryId: string) {
+    this.inventoriesService.deleteInventory(inventoryId);
+  }
 
   ngOnDestroy() {
     // removes subscription and prevents memory links

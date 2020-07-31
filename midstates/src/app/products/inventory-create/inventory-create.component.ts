@@ -4,6 +4,10 @@ import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
 import { InventoriesService } from '../inventories.service';
 
+/**
+ * Inventory create component
+ *
+ */
 @Component({
   selector: 'app-inventory-create',
   templateUrl: './inventory-create.component.html',

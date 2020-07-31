@@ -43,6 +43,9 @@ button.btn-outline-secondary {
   color: $blue-accent !important;
 
 }
+div.btn-danger, button.btn-danger  {
+  background-color: $red-accent !important;
+}
 
 
 $skins: () !default;

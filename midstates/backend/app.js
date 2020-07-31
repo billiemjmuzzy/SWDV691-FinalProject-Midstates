@@ -37,7 +37,8 @@ app.use((req, res, next) => {
   );
   next();
 });
-// Post
+
+
 app.post("/api/inventories", (req, res, next) => {
   const inventory = new Inventory({
     image: req.body.image,
@@ -49,20 +50,30 @@ app.post("/api/inventories", (req, res, next) => {
     price: req.body.price,
     description: req.body.description,
   });
-  console.log(inventory);
-  //everything is Ok, a new resource was created.
-  res.status(201).json({
-    message: "Inventory item added successfully",
+  inventory.save().then(result =>{
+     //everything is Ok, a new resource was created.
+    res.status(201).json({
+      message: "Inventory item added successfully",
+      inventoryId: createdInventory._id
+    });
   });
 });
-// Get
+
 app.get("/api/inventories", (req, res, next) => {
-  Inventory.find().then(documents => {
+  Inventory.find().then((documents) => {
     //Everything is ok
     res.status(200).json({
       message: "Inventories fetched successfully!",
       inventories: documents
     });
+  });
+});
+
+
+app.delete("/api/inventories/:id", (req, res, next) => {
+  Inventory.deleteOne({_id: req.params.id}).then(result=>{
+    console.log(result);
+    res.status(200).json({message: "Post Deleted!"})
   });
 });
 

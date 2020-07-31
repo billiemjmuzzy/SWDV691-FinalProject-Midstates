@@ -19,8 +19,7 @@ export class InventoriesService {
    * Gets all Inventory items.
    */
   getInventories() {
-    this.http
-      .get<{ message: string, inventories: any }>(
+    this.http.get<{ message: string, inventories: any }>(
         'http://localhost:3000/api/inventories'
       )
       .pipe(map((inventoryData) => {
@@ -73,12 +72,26 @@ export class InventoriesService {
       price: price,
       description: description
     };
-    this.http.post<{ message: string }>('http://localhost:3000/api/inventories', inventory)
-      .subscribe((responseData) => {
-        console.log(responseData.message);
+    this.http
+      .post<{ message: string, inventoryId: string }>('http://localhost:3000/api/inventories', inventory)
+      .subscribe(responseData => {
+        const id = responseData.inventoryId;
+        inventory.id = id;
         this.inventories.push(inventory);
         this.inventoriesUpdated.next([...this.inventories]);
+      });
+  }
 
+  /**
+   * Deletes the inventory item
+   * @param {string} inventoryId  ID of Inventory Item
+   */
+  deleteInventory(inventoryId: string) {
+    this.http.delete("http://localhost:3000/api/inventories/" + inventoryId)
+      .subscribe(() => {
+        const updatedInventories = this.inventories.filter(inventory => inventory.id !== inventoryId);
+        this.inventories = updatedInventories;
+        this.inventoriesUpdated.next([...this.inventories]);
       });
   }
 }
