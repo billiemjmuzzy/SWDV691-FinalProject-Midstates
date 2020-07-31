@@ -1,10 +1,11 @@
+ <!-- Add a new Inventory item -->
 <content>
-  <!-- Add a new Inventory item -->
   <div class="row">
     <div class="col-md-3 mt-5 mx-auto">
-      <!-- //TODO add link back to dashboard -->
       <mdb-icon far icon="arrow-alt-circle-left"></mdb-icon>
-      BACK TO DASHBOARD
+      <a routerLink="/">
+        BACK TO INVENTORY DATA
+      </a>
     </div>
   </div>
   <div class="row">
@@ -130,8 +131,8 @@
               <label for="serial"> Serial</label>
             </div>
 
-             <!-- Condition -->
-             <div class="md-form mt-3">
+            <!-- Condition -->
+            <div class="md-form mt-3">
               <input
                 type="text"
                 id="condition"
