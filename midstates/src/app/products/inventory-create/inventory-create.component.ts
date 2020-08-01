@@ -13,16 +13,6 @@ import { Inventory } from '../inventory.model';
   styleUrls: ['./inventory-create.component.css']
 })
 export class InventoryCreateComponent implements OnInit {
-  formData: FormData;
-  files: UploadFile[];
-  uploadInput: EventEmitter<UploadInput>;
-  humanizeBytes: Function;
-  dragOver: boolean;
-  private mode = 'create';
-  private inventoryId: string;
-  inventory: Inventory;
-
-
   enteredImage = '';
   enteredBrand = '';
   enteredYear = 0;
@@ -31,8 +21,18 @@ export class InventoryCreateComponent implements OnInit {
   enteredSerial = '';
   enteredPrice = 0;
   enteredDescription = '';
+  inventory: Inventory;
+  formData: FormData;
+  files: UploadFile[];
+  uploadInput: EventEmitter<UploadInput>;
+  humanizeBytes: Function;
+  dragOver: boolean;
+  private mode = 'create';
+  private inventoryId: string;
 
-  constructor(public inventoriesService: InventoriesService, public route: ActivatedRoute) {
+  constructor(
+    public inventoriesService: InventoriesService,
+    public route: ActivatedRoute) {
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
@@ -43,27 +43,62 @@ export class InventoryCreateComponent implements OnInit {
       if (paramMap.has('inventoryId')) {
         this.mode = 'edit';
         this.inventoryId = paramMap.get('inventoryId');
-        this.inventory = this.inventoriesService.getInventory(this.inventoryId);
-      } else if (this.mode == 'create'){
+        this.inventoriesService.getInventory(this.inventoryId).subscribe(inventoryData => {
+          this.inventory = {
+            id: inventoryData._id,
+            image: inventoryData.image,
+            brand: inventoryData.brand,
+            year: inventoryData.year,
+            hours: inventoryData.hours,
+            condition: inventoryData.condition,
+            serial: inventoryData.serial,
+            price: inventoryData.price,
+            description: inventoryData.description
+          };
+        });
+      } else {
+        this.mode == 'create'
         this.inventoryId = null;
-      } else if (this.mode == 'details') {
-        this.inventoryId = paramMap.get('inventoryId')
-        this.inventory = this.inventoriesService.getInventory(this.inventoryId);
       }
     });
   }
-
-  onAddInventory(form: NgForm) {
+  /**
+   * Adds a new inventory item and
+   * saves it to the database.
+   * @param form
+   */
+  onSaveInventory(form: NgForm) {
     //prevents form submission if invalid
     if (form.invalid) {
       return;
     }
-
-
-    this.inventoriesService.addInventory(form.value.image, form.value.brand, form.value.year, form.value.hours, form.value.condition, form.value.serial, form.value.price, form.value.description);
-
+    if (this.mode === 'create') {
+      this.inventoriesService.addInventory(
+        form.value.image,
+        form.value.brand,
+        form.value.year,
+        form.value.hours,
+        form.value.condition,
+        form.value.serial,
+        form.value.price,
+        form.value.description
+      );
+    } else {
+      this.inventoriesService.updateInventory(
+        this.inventoryId,
+        form.value.image,
+        form.value.brand,
+        form.value.year,
+        form.value.hours,
+        form.value.condition,
+        form.value.serial,
+        form.value.price,
+        form.value.description
+      );
+    }
+    form.resetForm();
   }
-
+//upload files
   showFiles() {
     let files = '';
     for (let i = 0; i < this.files.length; i++) {

@@ -16,7 +16,7 @@
       <mdb-card>
         <mdb-card-body class="px-lg-5 pt-0">
           <form
-            (submit)="onAddInventory(postForm)"
+            (submit)="onSaveInventory(postForm)"
             #postForm="ngForm"
             class="text-center"
             style="color: #757575;"
@@ -71,7 +71,8 @@
                 type="text"
                 id="brand"
                 name="brand"
-                [ngModel] ="inventory.brand"
+                [(ngModel)] ="inventory.brand"
+
                 class="form-control"
                 mdbInput
                 ngModel

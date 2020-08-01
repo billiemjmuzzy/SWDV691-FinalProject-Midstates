@@ -47,9 +47,22 @@ export class InventoriesService {
   getInventoryUpdateListener() {
     return this.inventoriesUpdated.asObservable();
   }
-
+/**
+ * Get a single inventory item
+ * @param id
+ */
   getInventory(id: string) {
-    return { ...this.inventories.find(i => i.id === id)};
+    return this.http.get<{
+      _id: string,
+      image: string,
+      brand: string,
+      year: string,
+      hours: string,
+      condition: string,
+      serial: string,
+      price: string,
+      description: string
+    }>("http://localhost:3000/api/inventories/" + id);
   }
 
   /**
@@ -85,6 +98,49 @@ export class InventoriesService {
         this.inventoriesUpdated.next([...this.inventories]);
       });
   }
+/**
+ * Update Inventory:
+ * Update a inventory item
+ * @param id --id of inventory item
+ * @param image
+ * @param brand
+ * @param year
+ * @param hours
+ * @param condition
+ * @param serial
+ * @param price
+ * @param description
+ */
+  updateInventory(
+    id: string,
+    image: string,
+    brand: string,
+    year: string,
+    hours: string,
+    condition: string,
+    serial: string,
+    price: string,
+    description: string) {
+    const inventory: Inventory = {
+      id: id,
+      image: image,
+      brand: brand,
+      year: year,
+      hours: hours,
+      condition: condition,
+      serial: serial,
+      price: price,
+      description: description
+    };
+    this.http.put("http://localhost:3000/api/inventories/" + id, inventory)
+      .subscribe(response => {
+        const updatedInventories = [...this.inventories];
+        const oldInventoryIndex = updatedInventories.findIndex(i => i.id === inventory.id);
+        updatedInventories[oldInventoryIndex] = inventory;
+        this.inventories = updatedInventories;
+        this.inventoriesUpdated.next([...this.inventories]);
+      });
+}
 
   /**
    * Deletes the inventory item
