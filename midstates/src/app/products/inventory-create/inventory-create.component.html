@@ -66,19 +66,17 @@
             </button>
 
             <!-- Brand -->
-            <div class="md-form mt-3">
+            <div class="md-form mt-3" >
               <input
                 type="text"
                 id="brand"
                 name="brand"
-                [(ngModel)] ="inventory.brand"
-
+                [ngModel]="inventory?.brand"
                 class="form-control"
                 mdbInput
-                ngModel
                 required
               />
-              <label for="brand"> Brand </label>
+              <label for="brand"> Brand</label>
             </div>
 
             <!-- Year -->
@@ -87,6 +85,7 @@
                 type="number"
                 id="year"
                 name="year"
+                [ngModel]="inventory?.year"
                 class="form-control"
                 mdbInput
                 ngModel

@@ -1,7 +1,8 @@
 const express = require("express");
-const router = express.Router();
 
 const Inventory = require("../models/inventory");
+
+const router = express.Router();
 
 router.post("", (req, res, next) => {
   const inventory = new Inventory({

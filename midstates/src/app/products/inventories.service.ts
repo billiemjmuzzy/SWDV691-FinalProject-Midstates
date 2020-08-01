@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from "@angular/router";
 
 import { Inventory } from './inventory.model';
 
@@ -12,6 +13,7 @@ import { Inventory } from './inventory.model';
 export class InventoriesService {
   private inventories: Inventory[] = [];
   private inventoriesUpdated = new Subject<Inventory[]>();
+  router: any;
 
   constructor(private http: HttpClient) { }
   /**
@@ -90,12 +92,15 @@ export class InventoriesService {
       description: description
     };
     this.http
-      .post<{ message: string, inventoryId: string }>('http://localhost:3000/api/inventories', inventory)
+      .post<{ message: string, inventoryId: string }>(
+        'http://localhost:3000/api/inventories',
+        inventory)
       .subscribe(responseData => {
         const id = responseData.inventoryId;
         inventory.id = id;
         this.inventories.push(inventory);
         this.inventoriesUpdated.next([...this.inventories]);
+        this.router.navigate(["/"])
       });
   }
 /**
@@ -132,13 +137,15 @@ export class InventoriesService {
       price: price,
       description: description
     };
-    this.http.put("http://localhost:3000/api/inventories/" + id, inventory)
+    this.http
+      .put("http://localhost:3000/api/inventories/" + id, inventory)
       .subscribe(response => {
         const updatedInventories = [...this.inventories];
         const oldInventoryIndex = updatedInventories.findIndex(i => i.id === inventory.id);
         updatedInventories[oldInventoryIndex] = inventory;
         this.inventories = updatedInventories;
         this.inventoriesUpdated.next([...this.inventories]);
+        this.router.navigate(["/"]);
       });
 }
 

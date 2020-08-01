@@ -27,7 +27,7 @@ export class InventoryCreateComponent implements OnInit {
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
   dragOver: boolean;
-  private mode = 'create';
+  private mode = "create";
   private inventoryId: string;
 
   constructor(
@@ -57,7 +57,7 @@ export class InventoryCreateComponent implements OnInit {
           };
         });
       } else {
-        this.mode == 'create'
+        this.mode == "create";
         this.inventoryId = null;
       }
     });
@@ -72,8 +72,9 @@ export class InventoryCreateComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    if (this.mode === 'create') {
-      this.inventoriesService.addInventory(
+    if (this.mode === 'edit') {
+      this.inventoriesService.updateInventory(
+        this.inventoryId,
         form.value.image,
         form.value.brand,
         form.value.year,
@@ -84,8 +85,7 @@ export class InventoryCreateComponent implements OnInit {
         form.value.description
       );
     } else {
-      this.inventoriesService.updateInventory(
-        this.inventoryId,
+      this.inventoriesService.addInventory(
         form.value.image,
         form.value.brand,
         form.value.year,
