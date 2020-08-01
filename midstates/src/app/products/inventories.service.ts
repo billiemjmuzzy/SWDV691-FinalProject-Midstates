@@ -48,6 +48,10 @@ export class InventoriesService {
     return this.inventoriesUpdated.asObservable();
   }
 
+  getInventory(id: string) {
+    return { ...this.inventories.find(i => i.id === id)};
+  }
+
   /**
    * Add Inventory:
    * Posts all inventory items
@@ -78,18 +82,6 @@ export class InventoriesService {
         const id = responseData.inventoryId;
         inventory.id = id;
         this.inventories.push(inventory);
-        this.inventoriesUpdated.next([...this.inventories]);
-      });
-  }
-  /**
-   * Get single inventory item
-   * @param {string} inventoryId  ID of Inventory Item
-   */
-  getInventory(inventoryId: string) {
-    this.http.get("http://localhost:3000/api/inventories/" + inventoryId)
-      .subscribe(() => {
-        const updatedInventories = this.inventories.filter(inventory => inventory.id !== inventoryId);
-        this.inventories = updatedInventories;
         this.inventoriesUpdated.next([...this.inventories]);
       });
   }

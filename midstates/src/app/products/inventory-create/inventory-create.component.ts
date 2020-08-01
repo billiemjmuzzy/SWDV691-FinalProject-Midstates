@@ -1,24 +1,27 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms"
 import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
 import { InventoriesService } from '../inventories.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Inventory } from '../inventory.model';
 
-/**
- * Inventory create component
- *
- */
+
 @Component({
   selector: 'app-inventory-create',
   templateUrl: './inventory-create.component.html',
   styleUrls: ['./inventory-create.component.css']
 })
-export class InventoryCreateComponent {
+export class InventoryCreateComponent implements OnInit {
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
   dragOver: boolean;
+  private mode = 'create';
+  private inventoryId: string;
+  inventory: Inventory;
+
 
   enteredImage = '';
   enteredBrand = '';
@@ -29,15 +32,30 @@ export class InventoryCreateComponent {
   enteredPrice = 0;
   enteredDescription = '';
 
-  constructor(public inventoriesService: InventoriesService) {
+  constructor(public inventoriesService: InventoriesService, public route: ActivatedRoute) {
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
   }
 
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('inventoryId')) {
+        this.mode = 'edit';
+        this.inventoryId = paramMap.get('inventoryId');
+        this.inventory = this.inventoriesService.getInventory(this.inventoryId);
+      } else if (this.mode == 'create'){
+        this.inventoryId = null;
+      } else if (this.mode == 'details') {
+        this.inventoryId = paramMap.get('inventoryId')
+        this.inventory = this.inventoriesService.getInventory(this.inventoryId);
+      }
+    });
+  }
+
   onAddInventory(form: NgForm) {
-     //prevents form submission if invalid
-     if (form.invalid) {
+    //prevents form submission if invalid
+    if (form.invalid) {
       return;
     }
 

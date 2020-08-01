@@ -12,7 +12,9 @@ export class InventoryDetailsComponent implements OnInit {
 
   inventories: Inventory[] = [];
   private inventoriesSub: Subscription;
+  inventory: Inventory;
   constructor(public inventoriesService: InventoriesService) { }
+
 
   ngOnInit() {
     this.inventoriesService.getInventories();

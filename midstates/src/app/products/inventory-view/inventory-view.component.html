@@ -83,7 +83,7 @@
               i < mdbTablePagination.lastItemIndex
             "
           >
-            <button
+            <!-- <button
               mdbBtn
               type="button"
               color="danger"
@@ -93,7 +93,11 @@
             >
               <mdb-icon fas icon="trash-alt"> </mdb-icon>
               Delete
-            </button>
+            </button> -->
+
+            <!-- <a text-color="secondary" [routerLink]="['/details', items.id]">Details</a> -->
+            <a text-color="secondary" [routerLink]="['/edit', items.id]">Edit</a> |
+            <a text-color="secondary" [routerLink]="['/details', items.id]">Details</a>
           </td>
         </tr>
       </tbody>
