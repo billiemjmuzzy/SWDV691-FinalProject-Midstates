@@ -5,9 +5,7 @@ import { MdbTableDirective, MdbTablePaginationComponent } from 'ng-uikit-pro-sta
 import { Inventory } from '../inventory.model';
 import { InventoriesService } from '../inventories.service';
 
-/**
- * Inventory view component.
- */
+
 @Component({
   selector: 'app-inventory-view',
   templateUrl: './inventory-view.component.html',
@@ -66,6 +64,14 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
    */
   onDelete(inventoryId: string) {
     this.inventoriesService.deleteInventory(inventoryId);
+  }
+
+  /**
+   * Get details of inventory item
+   * //TODO Add button to view details on inventory item
+   */
+  onDetails(inventoryId: string) {
+    this.inventoriesService.getInventory(inventoryId);
   }
 
   ngOnDestroy() {

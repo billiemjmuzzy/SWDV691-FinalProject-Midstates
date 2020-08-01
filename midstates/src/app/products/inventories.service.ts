@@ -20,8 +20,8 @@ export class InventoriesService {
    */
   getInventories() {
     this.http.get<{ message: string, inventories: any }>(
-        'http://localhost:3000/api/inventories'
-      )
+      'http://localhost:3000/api/inventories'
+    )
       .pipe(map((inventoryData) => {
         return inventoryData.inventories.map(inventory => {
           return {
@@ -78,6 +78,18 @@ export class InventoriesService {
         const id = responseData.inventoryId;
         inventory.id = id;
         this.inventories.push(inventory);
+        this.inventoriesUpdated.next([...this.inventories]);
+      });
+  }
+  /**
+   * Get single inventory item
+   * @param {string} inventoryId  ID of Inventory Item
+   */
+  getInventory(inventoryId: string) {
+    this.http.get("http://localhost:3000/api/inventories/" + inventoryId)
+      .subscribe(() => {
+        const updatedInventories = this.inventories.filter(inventory => inventory.id !== inventoryId);
+        this.inventories = updatedInventories;
         this.inventoriesUpdated.next([...this.inventories]);
       });
   }
