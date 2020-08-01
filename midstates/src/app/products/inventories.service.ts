@@ -13,9 +13,9 @@ import { Inventory } from './inventory.model';
 export class InventoriesService {
   private inventories: Inventory[] = [];
   private inventoriesUpdated = new Subject<Inventory[]>();
-  router: any;
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, private router: Router) { }
   /**
    * Get Inventories:
    * Gets all Inventory items.
@@ -79,7 +79,16 @@ export class InventoriesService {
    * @param price string
    * @param description string
    */
-  addInventory(image: string, brand: string, year: string, hours: string, condition: string, serial: string, price: string, description: string) {
+  addInventory(
+    image: string,
+    brand: string,
+    year: string,
+    hours: string,
+    condition: string,
+    serial: string,
+    price: string,
+    description: string)
+  {
     const inventory: Inventory = {
       id: null,
       image: image,
@@ -93,7 +102,7 @@ export class InventoriesService {
     };
     this.http
       .post<{ message: string, inventoryId: string }>(
-        'http://localhost:3000/api/inventories',
+        "http://localhost:3000/api/inventories",
         inventory)
       .subscribe(responseData => {
         const id = responseData.inventoryId;

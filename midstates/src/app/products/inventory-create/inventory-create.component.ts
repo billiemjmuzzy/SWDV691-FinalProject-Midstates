@@ -15,13 +15,14 @@ import { Inventory } from '../inventory.model';
 export class InventoryCreateComponent implements OnInit {
   enteredImage = '';
   enteredBrand = '';
-  enteredYear = 0;
-  enteredHours = 0;
+  enteredYear = '';
+  enteredHours = '';
   enteredCondition = '';
   enteredSerial = '';
-  enteredPrice = 0;
+  enteredPrice = '';
   enteredDescription = '';
   inventory: Inventory;
+  isLoading = false;
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
@@ -43,7 +44,9 @@ export class InventoryCreateComponent implements OnInit {
       if (paramMap.has('inventoryId')) {
         this.mode = 'edit';
         this.inventoryId = paramMap.get('inventoryId');
+        this.isLoading = true;
         this.inventoriesService.getInventory(this.inventoryId).subscribe(inventoryData => {
+          this.isLoading = false;
           this.inventory = {
             id: inventoryData._id,
             image: inventoryData.image,
@@ -72,6 +75,7 @@ export class InventoryCreateComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+    this.isLoading = true;
     if (this.mode === 'edit') {
       this.inventoriesService.updateInventory(
         this.inventoryId,

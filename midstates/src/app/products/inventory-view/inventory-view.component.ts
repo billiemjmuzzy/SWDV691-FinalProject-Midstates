@@ -19,6 +19,7 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
   headElements = ['image', 'brand', 'year', 'hours', 'condition', 'serial', 'price', 'description'];
 
   inventories: Inventory[] = [];
+  isLoading = false;
   private inventoriesSub: Subscription;
 
   searchText: string = '';
@@ -32,10 +33,12 @@ export class InventoryViewComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit() {
+    this.isLoading = true;
     this.inventoriesService.getInventories();
     // create subscription to get inventory data
     this.inventoriesSub = this.inventoriesService.getInventoryUpdateListener()
       .subscribe((inventories: Inventory[]) => {
+        this.isLoading = false;
         this.inventories = inventories;
       });
 

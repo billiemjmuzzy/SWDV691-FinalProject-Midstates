@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-3"></div>
   <div class="col-md-6 mt-5 mx-auto">
-    <!-- //TODO add search functionality -->
+    <!-- TODO add search functionality -->
     <!-- <div class="md-form">
       <input
         type="text"
@@ -16,6 +16,22 @@
     <h1 class="text-center display-4 mb-4">
       <span class="blue-accent-text"> Inventory</span> Data
     </h1>
+
+    <div class="text-center">
+      <mdb-spinner *ngIf="isLoading" spinnerColor="blue"></mdb-spinner>
+    </div>
+
+    <div
+      *ngIf="inventories.length <= 0 && !isLoading"
+      class="alert alert-danger"
+      role="alert"
+    >
+      <p>No inventory items have been added yet.</p>
+      <p>Please click on New Item to add a new inventory item.</p>
+    </div>
+
+    <!-- TODO prevent table from displaying if no inventory items  -->
+
     <table
       mdbTable
       #tableEl="mdbTable"
@@ -24,7 +40,7 @@
       striped="true"
       class="z-depth-1"
     >
-      <thead class="sticky-top">
+      <thead class="sticky-top" *ngIf="!isLoading">
         <tr>
           <th
             [mdbTableSort]="inventories"
@@ -35,11 +51,13 @@
             Brand
             <mdb-icon fas icon="sort"></mdb-icon>
           </th>
-          <!-- //TODO add sorting for condition -->
+          <!-- TODO add sorting for condition -->
           <th>Condition</th>
-          <!-- //TODO add sorting for price -->
+          <!-- TODO add sorting for price -->
           <th>Price</th>
           <th>Description</th>
+          <th></th>
+          <th></th>
           <th></th>
         </tr>
       </thead>
@@ -83,7 +101,7 @@
               i < mdbTablePagination.lastItemIndex
             "
           >
-            <!-- <button
+            <button
               mdbBtn
               type="button"
               color="danger"
@@ -93,11 +111,27 @@
             >
               <mdb-icon fas icon="trash-alt"> </mdb-icon>
               Delete
-            </button> -->
-
-            <!-- <a text-color="secondary" [routerLink]="['/details', items.id]">Details</a> -->
-            <a text-color="secondary" [routerLink]="['/edit', items.id]">Edit</a> |
-            <a text-color="secondary" [routerLink]="['/details', items.id]">Details</a>
+            </button>
+          </td>
+          <td
+            *ngIf="
+              i + 1 >= mdbTablePagination.firstItemIndex &&
+              i < mdbTablePagination.lastItemIndex
+            "
+          >
+            <a text-color="secondary" [routerLink]="['/edit', items.id]"
+              >Edit</a
+            >
+          </td>
+          <td
+            *ngIf="
+              i + 1 >= mdbTablePagination.firstItemIndex &&
+              i < mdbTablePagination.lastItemIndex
+            "
+          >
+            <a text-color="secondary" [routerLink]="['/details', items.id]"
+              >Details</a
+            >
           </td>
         </tr>
       </tbody>

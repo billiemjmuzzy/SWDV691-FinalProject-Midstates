@@ -13,6 +13,9 @@
       <h1 class="text-center display-4 mb-4">
         <span class="blue-accent-text"> Add </span> Inventory
       </h1>
+      <div class="text-center">
+        <mdb-spinner *ngIf="isLoading" spinnerColor="blue"></mdb-spinner>
+      </div>
       <mdb-card>
         <mdb-card-body class="px-lg-5 pt-0">
           <form
@@ -20,6 +23,7 @@
             #postForm="ngForm"
             class="text-center"
             style="color: #757575;"
+            *ngIf="!isLoading"
           >
             <!--Image-->
             <div class="file-field md-form">
@@ -72,6 +76,7 @@
                 id="brand"
                 name="brand"
                 [ngModel]="inventory?.brand"
+                #title="ngModel"
                 class="form-control"
                 mdbInput
                 required
