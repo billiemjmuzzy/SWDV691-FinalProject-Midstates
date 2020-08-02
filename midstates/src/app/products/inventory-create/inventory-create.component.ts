@@ -1,47 +1,108 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms"
 import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
 import { InventoriesService } from '../inventories.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Inventory } from '../inventory.model';
+
 
 @Component({
   selector: 'app-inventory-create',
   templateUrl: './inventory-create.component.html',
   styleUrls: ['./inventory-create.component.css']
 })
-export class InventoryCreateComponent {
+export class InventoryCreateComponent implements OnInit {
+  enteredImage = '';
+  enteredBrand = '';
+  enteredYear = '';
+  enteredHours = '';
+  enteredCondition = '';
+  enteredSerial = '';
+  enteredPrice = '';
+  enteredDescription = '';
+  inventory: Inventory;
+  isLoading = false;
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
   humanizeBytes: Function;
   dragOver: boolean;
+  private mode = "create";
+  private inventoryId: string;
 
-  enteredImage = '';
-  enteredBrand = '';
-  enteredYear = 0;
-  enteredHours = 0;
-  enteredCondition = '';
-  enteredSerial = '';
-  enteredPrice = 0;
-  enteredDescription = '';
-
-  constructor(public inventoriesService: InventoriesService) {
+  constructor(
+    public inventoriesService: InventoriesService,
+    public route: ActivatedRoute) {
     this.files = [];
     this.uploadInput = new EventEmitter<UploadInput>();
     this.humanizeBytes = humanizeBytes;
   }
 
-  onAddInventory(form: NgForm) {
-     //prevents form submission if invalid
-     if (form.invalid) {
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('inventoryId')) {
+        this.mode = 'edit';
+        this.inventoryId = paramMap.get('inventoryId');
+        this.isLoading = true;
+        this.inventoriesService.getInventory(this.inventoryId).subscribe(inventoryData => {
+          this.isLoading = false;
+          this.inventory = {
+            id: inventoryData._id,
+            image: inventoryData.image,
+            brand: inventoryData.brand,
+            year: inventoryData.year,
+            hours: inventoryData.hours,
+            condition: inventoryData.condition,
+            serial: inventoryData.serial,
+            price: inventoryData.price,
+            description: inventoryData.description
+          };
+        });
+      } else {
+        this.mode == "create";
+        this.inventoryId = null;
+      }
+    });
+  }
+  /**
+   * Adds a new inventory item and
+   * saves it to the database.
+   * @param form
+   */
+  onSaveInventory(form: NgForm) {
+    //prevents form submission if invalid
+    if (form.invalid) {
       return;
     }
-
-
-    this.inventoriesService.addInventory(form.value.image, form.value.brand, form.value.year, form.value.hours, form.value.condition, form.value.serial, form.value.price, form.value.description);
-
+    this.isLoading = true;
+    if (this.mode === 'edit') {
+      this.inventoriesService.updateInventory(
+        this.inventoryId,
+        form.value.image,
+        form.value.brand,
+        form.value.year,
+        form.value.hours,
+        form.value.condition,
+        form.value.serial,
+        form.value.price,
+        form.value.description
+      );
+    } else {
+      this.inventoriesService.addInventory(
+        form.value.image,
+        form.value.brand,
+        form.value.year,
+        form.value.hours,
+        form.value.condition,
+        form.value.serial,
+        form.value.price,
+        form.value.description
+      );
+    }
+    form.resetForm();
   }
-
+//upload files
   showFiles() {
     let files = '';
     for (let i = 0; i < this.files.length; i++) {

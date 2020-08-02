@@ -1,10 +1,11 @@
 export interface Inventory {
+  id: string,
   image: string;
   brand: string;
-  year: number;
-  hours: number;
+  year: string;
+  hours: string;
   condition: string;
   serial: string;
-  price: number;
+  price: string;
   description: string;
 }

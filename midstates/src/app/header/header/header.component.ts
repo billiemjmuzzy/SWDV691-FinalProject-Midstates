@@ -1,6 +1,9 @@
 import { Component, HostListener, ViewChild, Renderer2, AfterViewInit, ElementRef } from '@angular/core';
 import { NavbarComponent } from 'ng-uikit-pro-standard';
 
+/**
+ * Header component
+ */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
