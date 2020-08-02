@@ -55,13 +55,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AppModule.html" data-type="entity-link">AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AppModule-1fe988fc36c130262625d05d45d2a826"' : 'data-target="#xs-components-links-module-AppModule-1fe988fc36c130262625d05d45d2a826"' }>
+                                            'data-target="#components-links-module-AppModule-e158e53cd8142c32a0a73644065ca713"' : 'data-target="#xs-components-links-module-AppModule-e158e53cd8142c32a0a73644065ca713"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-1fe988fc36c130262625d05d45d2a826"' :
-                                            'id="xs-components-links-module-AppModule-1fe988fc36c130262625d05d45d2a826"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AppModule-e158e53cd8142c32a0a73644065ca713"' :
+                                            'id="xs-components-links-module-AppModule-e158e53cd8142c32a0a73644065ca713"' }>
                                             <li class="link">
                                                 <a href="components/AppComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">AppComponent</a>
@@ -75,18 +75,11 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">InventoryCreateComponent</a>
                                             </li>
                                             <li class="link">
-                                                <a href="components/InventoryDetailsComponent.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">InventoryDetailsComponent</a>
-                                            </li>
-                                            <li class="link">
                                                 <a href="components/InventoryViewComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">InventoryViewComponent</a>
                                             </li>
                                         </ul>
                                     </li>
-                            </li>
-                            <li class="link">
-                                <a href="modules/AppRoutingModule.html" data-type="entity-link">AppRoutingModule</a>
                             </li>
                 </ul>
                 </li>
@@ -129,9 +122,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                         </ul>
                     </li>
-                        <li class="chapter">
-                            <a data-type="chapter-link" href="routes.html"><span class="icon ion-ios-git-branch"></span>Routes</a>
-                        </li>
                     <li class="chapter">
                         <a data-type="chapter-link" href="coverage.html"><span class="icon ion-ios-stats"></span>Documentation coverage</a>
                     </li>
