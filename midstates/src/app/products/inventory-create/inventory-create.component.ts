@@ -5,6 +5,7 @@ import { humanizeBytes } from 'ng-uikit-pro-standard';
 import { InventoriesService } from '../inventories.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Inventory } from '../inventory.model';
+import { mimeType } from "./mime-type.validator";
 
 
 @Component({
@@ -45,7 +46,8 @@ export class InventoryCreateComponent implements OnInit {
 
     this.form = new FormGroup({
       'image': new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required],
+        asyncValidators: [mimeType]
       }),
       'brand': new FormControl(null, {
         validators: [Validators.required]
@@ -68,7 +70,7 @@ export class InventoryCreateComponent implements OnInit {
       'description': new FormControl(null, {
         validators: [Validators.required]
       })
-    })
+    });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('inventoryId')) {
         this.mode = 'edit';
