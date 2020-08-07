@@ -26,34 +26,19 @@
             *ngIf="!isLoading"
           >
             <!--Image-->
-            <div class="file-field md-form">
-              <div
-                mdbBtn
-                color="primary"
-                size="sm"
-                class="waves-light"
-                mdbWavesEffect
+            <div class = "md-form mt-3">
+              <button
+              mdbBtn
+              type = "button"
+              color = "primary"
+              outline = "true"
+              mdbWavesEffect
+              (click)="filePicker.click()"
               >
-                <span>Choose file</span>
-                <input
-                  type="file"
-                  mdbFileSelect
-                  (uploadOutput)="onUploadOutput($event)"
-                  [uploadInput]="uploadInput"
-                />
-              </div>
-              <div class="file-path-wrapper">
-                <input
-                  class="file-path"
-                  type="text"
-                  placeholder="Upload your file"
-                  [value]="showFiles()"
-                />
-              </div>
+              Choose Image
+              </button>
+              <input type ="file" #filePicker (change)="onImagePicked($event)" >
             </div>
-            <button mdbBtn color="primary" (click)="startUpload()">
-              Start uploading
-            </button>
 
             <!-- Brand -->
             <div class="md-form mt-3">

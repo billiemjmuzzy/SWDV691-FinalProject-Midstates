@@ -1,0 +1,4 @@
+/* hides default file picker button */
+input[type="file"]{
+  visibility: hidden;
+}
