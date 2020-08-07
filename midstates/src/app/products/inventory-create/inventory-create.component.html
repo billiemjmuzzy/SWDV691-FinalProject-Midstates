@@ -19,8 +19,8 @@
       <mdb-card>
         <mdb-card-body class="px-lg-5 pt-0">
           <form
-            (submit)="onSaveInventory(postForm)"
-            #postForm="ngForm"
+            [formGroup]="form"
+            (submit)="onSaveInventory()"
             class="text-center"
             style="color: #757575;"
             *ngIf="!isLoading"
@@ -29,54 +29,39 @@
             <div class="file-field md-form">
               <div
                 mdbBtn
-                floating="true"
-                size="md"
                 color="primary"
+                size="sm"
+                class="waves-light"
                 mdbWavesEffect
               >
-                <mdb-icon
-                  fas
-                  icon="cloud-upload-alt"
-                  aria-hidden="true"
-                ></mdb-icon>
+                <span>Choose file</span>
                 <input
                   type="file"
-                  name="image"
                   mdbFileSelect
                   (uploadOutput)="onUploadOutput($event)"
                   [uploadInput]="uploadInput"
-                  ngModel
                 />
               </div>
-              <div class="file-path-wrapper mt-3">
+              <div class="file-path-wrapper">
                 <input
                   class="file-path"
                   type="text"
-                  name="image"
-                  placeholder="Image- Click icon on left to upload your image"
+                  placeholder="Upload your file"
                   [value]="showFiles()"
                 />
               </div>
             </div>
-            <button
-              mdbBtn
-              type="button"
-              color="primary"
-              class="waves-light"
-              (click)="startUpload()"
-              mdbWavesEffect
-            >
+            <button mdbBtn color="primary" (click)="startUpload()">
               Start uploading
             </button>
 
             <!-- Brand -->
-            <div class="md-form mt-3" >
+            <div class="md-form mt-3">
               <input
                 type="text"
                 id="brand"
                 name="brand"
-                [ngModel]="inventory?.brand"
-                #title="ngModel"
+                [formControlName]="'brand'"
                 class="form-control"
                 mdbInput
                 required
@@ -90,10 +75,9 @@
                 type="number"
                 id="year"
                 name="year"
-                [ngModel]="inventory?.year"
+                formControlName="year"
                 class="form-control"
                 mdbInput
-                ngModel
               />
               <label for="year"> Year</label>
             </div>
@@ -101,12 +85,12 @@
             <!-- Hours -->
             <div class="md-form mt-3">
               <input
-                type="number"
+                type="text"
                 id="hours"
                 name="hours"
+                formControlName="hours"
                 class="form-control"
                 mdbInput
-                ngModel
               />
               <label for="hours"> Hours</label>
             </div>
@@ -114,12 +98,12 @@
             <!-- Price -->
             <div class="md-form mt-3">
               <input
-                type="number"
+                type="text"
                 id="price"
                 name="price"
+                formControlName="price"
                 class="form-control"
                 mdbInput
-                ngModel
               />
               <label for="price">Price</label>
             </div>
@@ -130,9 +114,9 @@
                 type="text"
                 id="serial"
                 name="serial"
+                formControlName="serial"
                 class="form-control"
                 mdbInput
-                ngModel
               />
               <label for="serial"> Serial</label>
             </div>
@@ -143,9 +127,9 @@
                 type="text"
                 id="condition"
                 name="condition"
+                formControlName="condition"
                 class="form-control"
                 mdbInput
-                ngModel
               />
               <label for="condition"> Condition </label>
             </div>
@@ -157,8 +141,8 @@
                 id="description"
                 class="form-control md-textarea"
                 name="description"
+                formControlName="description"
                 mdbInput
-                ngModel
               ></textarea>
               <label for="description">Description</label>
             </div>

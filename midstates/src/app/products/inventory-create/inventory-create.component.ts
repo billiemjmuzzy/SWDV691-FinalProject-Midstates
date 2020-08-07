@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { NgForm } from "@angular/forms"
+import { FormGroup, FormControl, Validators } from "@angular/forms"
 import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
 import { humanizeBytes } from 'ng-uikit-pro-standard';
 import { InventoriesService } from '../inventories.service';
@@ -23,6 +23,7 @@ export class InventoryCreateComponent implements OnInit {
   enteredDescription = '';
   inventory: Inventory;
   isLoading = false;
+  form: FormGroup;
   formData: FormData;
   files: UploadFile[];
   uploadInput: EventEmitter<UploadInput>;
@@ -40,6 +41,30 @@ export class InventoryCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.form = new FormGroup({
+      brand: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      year: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      hours: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      condition: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      serial: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      price: new FormControl(null, {
+        validators: [Validators.required]
+      }),
+      description: new FormControl(null, {
+        validators: [Validators.required]
+      })
+    })
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('inventoryId')) {
         this.mode = 'edit';
@@ -58,6 +83,15 @@ export class InventoryCreateComponent implements OnInit {
             price: inventoryData.price,
             description: inventoryData.description
           };
+          this.form.setValue({
+            'image': this.inventory.brand,
+            'year': this.inventory.year,
+            'hours': this.inventory.hours,
+            'condition': this.inventory.condition,
+            'serial': this.inventory.serial,
+            'price': this.inventory.price,
+            'description': this.inventory.description
+          });
         });
       } else {
         this.mode == "create";
@@ -70,39 +104,39 @@ export class InventoryCreateComponent implements OnInit {
    * saves it to the database.
    * @param form
    */
-  onSaveInventory(form: NgForm) {
+  onSaveInventory() {
     //prevents form submission if invalid
-    if (form.invalid) {
+    if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
     if (this.mode === 'edit') {
       this.inventoriesService.updateInventory(
         this.inventoryId,
-        form.value.image,
-        form.value.brand,
-        form.value.year,
-        form.value.hours,
-        form.value.condition,
-        form.value.serial,
-        form.value.price,
-        form.value.description
+        this.form.value.image,
+        this.form.value.brand,
+        this.form.value.year,
+        this.form.value.hours,
+        this.form.value.condition,
+        this.form.value.serial,
+        this.form.value.price,
+        this.form.value.description
       );
     } else {
       this.inventoriesService.addInventory(
-        form.value.image,
-        form.value.brand,
-        form.value.year,
-        form.value.hours,
-        form.value.condition,
-        form.value.serial,
-        form.value.price,
-        form.value.description
+        this.form.value.image,
+        this.form.value.brand,
+        this.form.value.year,
+        this.form.value.hours,
+        this.form.value.condition,
+        this.form.value.serial,
+        this.form.value.price,
+        this.form.value.description
       );
     }
-    form.resetForm();
+    this.form.reset();
   }
-//upload files
+  //upload files
   showFiles() {
     let files = '';
     for (let i = 0; i < this.files.length; i++) {
