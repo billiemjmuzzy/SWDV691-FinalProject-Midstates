@@ -40,6 +40,13 @@
               <input type ="file" #filePicker (change)="onImagePicked($event)" >
             </div>
 
+            <!--Preview image-->
+            <div class="md-form mt-3" *ngIf="imagePreview !== '' && imagePreview">
+              <div class="image-preview">
+              <img [src]="imagePreview" [alt]="form.value.title">
+            </div>
+            </div>
+
             <!-- Brand -->
             <div class="md-form mt-3">
               <input
