@@ -82,6 +82,7 @@ router.put(
       price: req.body.price,
       description: req.body.description,
     });
+    console.log(inventory);
 
     Inventory.updateOne({ _id: req.params.id }, inventory).then((result) => {
       console.log(result);

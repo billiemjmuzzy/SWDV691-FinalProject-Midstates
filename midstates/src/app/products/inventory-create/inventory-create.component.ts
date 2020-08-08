@@ -45,7 +45,7 @@ export class InventoryCreateComponent implements OnInit {
         validators: [Validators.required]
       }),
       year: new FormControl(null, {
-        validators: [Validators.required]
+        validators: [Validators.required, Validators.pattern('^\\d{4}$')]
       }),
       hours: new FormControl(null, {
         validators: [Validators.required]
