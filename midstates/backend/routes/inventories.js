@@ -80,10 +80,9 @@ router.put(
       condition: req.body.condition,
       serial: req.body.serial,
       price: req.body.price,
-      description: req.body.description,
+      description: req.body.description
     });
     console.log(inventory);
-
     Inventory.updateOne({ _id: req.params.id }, inventory).then((result) => {
       console.log(result);
       res.status(200).json({ message: "Update successful" });
