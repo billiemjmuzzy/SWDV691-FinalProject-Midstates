@@ -1,18 +1,17 @@
 <div class="row">
-  <div class="col-3"></div>
+  <div class="col-3 mt-5">
+    <button
+      mdbBtn
+      type="button"
+      color="secondary"
+      outline="true"
+      mdbWavesEffect
+    >
+      <mdb-icon fas icon="plus-circle"></mdb-icon>
+      <a routerLink="/create">New Item</a>
+    </button>
+  </div>
   <div class="col-md-6 mt-5 mx-auto">
-    <!-- TODO add search functionality -->
-    <!-- <div class="md-form">
-      <input
-        type="text"
-        class="form-control"
-        [(ngModel)]="searchText"
-        (keyup)="searchItems()"
-        id="search-input"
-        mdbInput
-      />
-      <label for="search-input">Search</label>
-    </div> -->
     <h1 class="text-center display-4 mb-4">
       <span class="blue-accent-text"> Inventory</span> Data
     </h1>
@@ -29,145 +28,34 @@
       <p>No inventory items have been added yet.</p>
       <p>Please click on New Item to add a new inventory item.</p>
     </div>
-
-    <!-- TODO prevent table from displaying if no inventory items  -->
-
-    <table
-      mdbTable
-      #tableEl="mdbTable"
-      stickyHeader="true"
-      hover="true"
-      striped="true"
-      class="z-depth-1"
+    <mdb-accordion
+      [multiple]="true"
+      *ngIf="inventories.length > 0 && !isLoading"
     >
-      <thead class="sticky-top" *ngIf="!isLoading">
-        <tr>
-          <th>Image Preview</th>
-          <th
-            [mdbTableSort]="inventories"
-            [sortBy]="headElements[1]"
-            scope="col"
-            background-color="purple"
+      <mdb-accordion-item
+        [collapsed]="false"
+        *ngFor="let inventory of inventories"
+      >
+        <mdb-accordion-item-head>{{ inventory.brand }}</mdb-accordion-item-head>
+        <mdb-accordion-item-body>
+          {{inventory.id}}
+          <button
+            mdbBtn
+            type="button"
+            color="danger"
+            rounded="true"
+            mdbWavesEffect
+            (click)="onDelete(inventory.id)"
           >
-            Brand
-            <mdb-icon fas icon="sort"></mdb-icon>
-          </th>
-          <!-- TODO add sorting for condition -->
-          <th>Condition</th>
-          <!-- TODO add sorting for price -->
-          <th>Price</th>
-          <th>Description</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody #row>
-        <tr mdbTableCol *ngFor="let items of inventories; let i = index">
-          <td
-            class="inventory-image"
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
+            <mdb-icon fas icon="trash-alt"> </mdb-icon>
+            Delete
+          </button>
+          <a text-color="secondary" [routerLink]="['/edit', inventory.id]"
+            >Edit</a
           >
-            <img [src]="items.imagePath" [alt]="items.brand" />
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.brand }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.condition }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.price }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.description }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            <button
-              mdbBtn
-              type="button"
-              color="danger"
-              rounded="true"
-              mdbWavesEffect
-              (click)="onDelete(items.id)"
-            >
-              <mdb-icon fas icon="trash-alt"> </mdb-icon>
-              Delete
-            </button>
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            <a text-color="secondary" [routerLink]="['/edit', items.id]"
-              >Edit</a
-            >
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            <a text-color="secondary" [routerLink]="['/details', items.id]"
-              >Details</a
-            >
-          </td>
-        </tr>
-      </tbody>
-      <tfoot class="grey lighten-5 w-100">
-        <tr>
-          <td colspan="12">
-            <mdb-table-pagination
-              [tableEl]="tableEl"
-              paginationAlign=""
-              [searchDataSource]="inventories"
-            ></mdb-table-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+        </mdb-accordion-item-body>
+      </mdb-accordion-item>
+    </mdb-accordion>
+
   </div>
-  <div class="col-3 mt-5">
-    <button
-      mdbBtn
-      type="button"
-      color="secondary"
-      outline="true"
-      mdbWavesEffect
-    >
-      <mdb-icon fas icon="plus-circle"></mdb-icon>
-      <a routerLink="/create">New Item</a>
-    </button>
-  </div>
-</div>
+

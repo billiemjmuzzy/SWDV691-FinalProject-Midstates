@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms"
-import { UploadFile, UploadInput, UploadOutput } from 'ng-uikit-pro-standard';
-import { humanizeBytes } from 'ng-uikit-pro-standard';
+
+
 import { InventoriesService } from '../inventories.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Inventory } from '../inventory.model';
@@ -26,61 +26,53 @@ export class InventoryCreateComponent implements OnInit {
   isLoading = false;
   form: FormGroup;
   imagePreview: string;
-  formData: FormData;
-  files: UploadFile[];
-  uploadInput: EventEmitter<UploadInput>;
-  humanizeBytes: Function;
-  dragOver: boolean;
   private mode = "create";
   private inventoryId: string;
 
   constructor(
     public inventoriesService: InventoriesService,
-    public route: ActivatedRoute) {
-    this.files = [];
-    this.uploadInput = new EventEmitter<UploadInput>();
-    this.humanizeBytes = humanizeBytes;
-  }
+    public route: ActivatedRoute
+  ) { }
+
 
   ngOnInit() {
-
     this.form = new FormGroup({
-      'image': new FormControl(null, {
+      image: new FormControl(null, {
         validators: [Validators.required],
         asyncValidators: [mimeType]
       }),
-      'brand': new FormControl(null, {
+      brand: new FormControl(null, {
         validators: [Validators.required]
       }),
-      'year': new FormControl(null, {
+      year: new FormControl(null, {
         validators: [Validators.required]
       }),
-      'hours': new FormControl(null, {
+      hours: new FormControl(null, {
         validators: [Validators.required]
       }),
-      'condition': new FormControl(null, {
+      condition: new FormControl(null, {
         validators: [Validators.required]
       }),
-      'serial': new FormControl(null, {
+      serial: new FormControl(null, {
         validators: [Validators.required]
       }),
-      'price': new FormControl(null, {
+      price: new FormControl(null, {
         validators: [Validators.required]
       }),
-      'description': new FormControl(null, {
+      description: new FormControl(null, {
         validators: [Validators.required]
       })
     });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has('inventoryId')) {
-        this.mode = 'edit';
-        this.inventoryId = paramMap.get('inventoryId');
+      if (paramMap.has("inventoryId")) {
+        this.mode = "edit";
+        this.inventoryId = paramMap.get("inventoryId");
         this.isLoading = true;
         this.inventoriesService.getInventory(this.inventoryId).subscribe(inventoryData => {
           this.isLoading = false;
           this.inventory = {
             id: inventoryData._id,
-            imagePath: null,
+            imagePath: inventoryData.imagePath,
             brand: inventoryData.brand,
             year: inventoryData.year,
             hours: inventoryData.hours,
@@ -90,13 +82,14 @@ export class InventoryCreateComponent implements OnInit {
             description: inventoryData.description
           };
           this.form.setValue({
-            'image': this.inventory.brand,
-            'year': this.inventory.year,
-            'hours': this.inventory.hours,
-            'condition': this.inventory.condition,
-            'serial': this.inventory.serial,
-            'price': this.inventory.price,
-            'description': this.inventory.description
+            image: this.inventory.imagePath,
+            brand: this.inventory.brand,
+            year: this.inventory.year,
+            hours: this.inventory.hours,
+            condition: this.inventory.condition,
+            serial: this.inventory.serial,
+            price: this.inventory.price,
+            description: this.inventory.description
           });
         });
       } else {
@@ -150,6 +143,5 @@ export class InventoryCreateComponent implements OnInit {
     }
     this.form.reset();
   }
-
 
 }

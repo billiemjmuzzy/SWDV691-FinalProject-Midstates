@@ -15,69 +15,80 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error("Invalid mime type");
-    if (isValid){
+    if (isValid) {
       error = null;
     }
     cb(null, "backend/images");
   },
   filename: (req, file, cb) => {
-    const name = file.originalname
-    .toLowerCase()
-    .split(" ").
-    join("-");
+    const name = file.originalname.toLowerCase().split(" ").join("-");
     const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, name + "-" + Date.now() + "." + ext);
-  }
+  },
 });
 
-router.post("", multer({storage: storage}).single("image"), (req, res, next) => {
-  const url = req.protocol + '://' + req.get("host");
-  const inventory = new Inventory({
-    imagePath: url + "/images/" + req.file.filename,
-    brand: req.body.brand,
-    year: req.body.year,
-    hours: req.body.hours,
-    condition: req.body.condition,
-    serial: req.body.serial,
-    price: req.body.price,
-    description: req.body.description,
-  });
-  inventory.save().then((createdInventory) => {
-    //everything is Ok, a new resource was created.
-    res.status(201).json({
-      message: "Inventory item added successfully",
-      inventory: {
-        id: createdInventory._id,
-        imagePath: createdInventory.imagePath,
-        brand: createdInventory.brand,
-        year: createdInventory.year,
-        hours: createdInventory.hours,
-        condition: createdInventory.condition,
-        serial: createdInventory.serial,
-        price: createdInventory.price,
-        description: createdInventory.description
-      }
+router.post(
+  "",
+  multer({ storage: storage }).single("image"),
+  (req, res, next) => {
+    const url = req.protocol + "://" + req.get("host");
+    const inventory = new Inventory({
+      imagePath: url + "/images/" + req.file.filename,
+      brand: req.body.brand,
+      year: req.body.year,
+      hours: req.body.hours,
+      condition: req.body.condition,
+      serial: req.body.serial,
+      price: req.body.price,
+      description: req.body.description,
     });
-  });
-});
+    inventory.save().then((createdInventory) => {
+      //everything is Ok, a new resource was created.
+      res.status(201).json({
+        message: "Inventory item added successfully",
+        inventory: {
+          id: createdInventory._id,
+          imagePath: createdInventory.imagePath,
+          brand: createdInventory.brand,
+          year: createdInventory.year,
+          hours: createdInventory.hours,
+          condition: createdInventory.condition,
+          serial: createdInventory.serial,
+          price: createdInventory.price,
+          description: createdInventory.description,
+        },
+      });
+    });
+  }
+);
 
-router.put("/:id", (req, res, next) => {
-  const inventory = new Inventory({
-    _id: req.body.id,
-    image: req.body.image,
-    brand: req.body.brand,
-    year: req.body.year,
-    hours: req.body.hours,
-    condition: req.body.condition,
-    serial: req.body.serial,
-    price: req.body.price,
-    description: req.body.description,
-  });
-  Inventory.updateOne({ _id: req.params.id }, inventory).then((result) => {
-    console.log(result);
-    res.status(200).json({ message: "Update successful" });
-  });
-});
+router.put(
+  "/:id",
+  multer({ storage: storage }).single("image"),
+  (req, res, next) => {
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+      const url = req.protocol + "://" + req.get("host");
+      imagePath: url + "/images/" + req.file.filename
+    }
+    const inventory = new Inventory({
+      _id: req.body.id,
+      imagePath: imagePath,
+      brand: req.body.brand,
+      year: req.body.year,
+      hours: req.body.hours,
+      condition: req.body.condition,
+      serial: req.body.serial,
+      price: req.body.price,
+      description: req.body.description,
+    });
+
+    Inventory.updateOne({ _id: req.params.id }, inventory).then((result) => {
+      console.log(result);
+      res.status(200).json({ message: "Update successful" });
+    });
+  }
+);
 
 router.get("", (req, res, next) => {
   Inventory.find().then((documents) => {

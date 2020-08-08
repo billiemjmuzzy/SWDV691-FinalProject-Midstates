@@ -22,25 +22,26 @@ export class InventoriesService {
    * Gets all Inventory items.
    */
   getInventories() {
-    this.http.get<{ message: string, inventories: any }>(
-      'http://localhost:3000/api/inventories'
-    )
-      .pipe(map((inventoryData) => {
-        return inventoryData.inventories.map(inventory => {
-          return {
-            id: inventory._id,
-            imagePath: inventory.imagePath,
-            brand: inventory.brand,
-            year: inventory.year,
-            hours: inventory.hours,
-            condition: inventory.condition,
-            serial: inventory.serial,
-            price: inventory.price,
-            description: inventory.description,
-            createdDate: inventory.createdDate
-          };
-        });
-      }))
+    this.http
+      .get<{ message: string, inventories: any }>('http://localhost:3000/api/inventories')
+      .pipe(
+        map(inventoryData => {
+          return inventoryData.inventories.map(inventory => {
+            return {
+              id: inventory._id,
+              imagePath: inventory.imagePath,
+              brand: inventory.brand,
+              year: inventory.year,
+              hours: inventory.hours,
+              condition: inventory.condition,
+              serial: inventory.serial,
+              price: inventory.price,
+              description: inventory.description,
+              createdDate: inventory.createdDate
+            };
+          });
+        })
+      )
       .subscribe(transformedInventories => {
         this.inventories = transformedInventories;
         this.inventoriesUpdated.next([...this.inventories]);
@@ -50,14 +51,11 @@ export class InventoriesService {
   getInventoryUpdateListener() {
     return this.inventoriesUpdated.asObservable();
   }
-  /**
-   * Get a single inventory item
-   * @param id
-   */
+
   getInventory(id: string) {
     return this.http.get<{
       _id: string,
-      image: string,
+      imagePath: string,
       brand: string,
       year: string,
       hours: string,
@@ -135,6 +133,7 @@ export class InventoriesService {
    */
   updateInventory(
     id: string,
+    image: File | string,
     brand: string,
     year: string,
     hours: string,
@@ -142,22 +141,46 @@ export class InventoriesService {
     serial: string,
     price: string,
     description: string) {
-    const inventory: Inventory = {
-      id: id,
-      imagePath: null,
-      brand: brand,
-      year: year,
-      hours: hours,
-      condition: condition,
-      serial: serial,
-      price: price,
-      description: description
-    };
+    let inventoryData: Inventory | FormData;
+    if (typeof image === "object") {
+      inventoryData = new FormData();
+      inventoryData.append("id", id);
+      inventoryData.append("image", image, brand);
+      inventoryData.append("year", year);
+      inventoryData.append("hours", hours);
+      inventoryData.append("condition", condition);
+      inventoryData.append("serial", serial);
+      inventoryData.append("price", price);
+      inventoryData.append("description", description);
+    } else {
+      inventoryData= {
+        id: id,
+        imagePath: image,
+        brand: brand,
+        year: year,
+        hours: hours,
+        condition: condition,
+        serial: serial,
+        price: price,
+        description: description
+      };
+    }
     this.http
-      .put("http://localhost:3000/api/inventories/" + id, inventory)
+      .put("http://localhost:3000/api/inventories/" + id, inventoryData)
       .subscribe(response => {
         const updatedInventories = [...this.inventories];
-        const oldInventoryIndex = updatedInventories.findIndex(i => i.id === inventory.id);
+        const oldInventoryIndex = updatedInventories.findIndex(i => i.id === id);
+        const inventory: Inventory = {
+          id: id,
+          imagePath: "",
+          brand: brand,
+          year: year,
+          hours: hours,
+          condition: condition,
+          serial: serial,
+          price: price,
+          description: description
+        };
         updatedInventories[oldInventoryIndex] = inventory;
         this.inventories = updatedInventories;
         this.inventoriesUpdated.next([...this.inventories]);
@@ -165,12 +188,10 @@ export class InventoriesService {
       });
   }
 
-  /**
-   * Deletes the inventory item
-   * @param {string} inventoryId  ID of Inventory Item
-   */
+
   deleteInventory(inventoryId: string) {
-    this.http.delete("http://localhost:3000/api/inventories/" + inventoryId)
+    this.http
+      .delete("http://localhost:3000/api/inventories/" + inventoryId)
       .subscribe(() => {
         const updatedInventories = this.inventories.filter(inventory => inventory.id !== inventoryId);
         this.inventories = updatedInventories;

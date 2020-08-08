@@ -7,8 +7,7 @@ import { RouterModule, Routes } from "@angular/router";
 const routes: Routes = [
   { path: '', component: InventoryViewComponent },
   { path: 'create', component: InventoryCreateComponent },
-  { path: 'details/:inventoryID', component: InventoryDetailsComponent },
-  { path: 'edit/:inventoryID', component: InventoryCreateComponent}
+  { path: 'edit/:inventoryId', component: InventoryCreateComponent},
 ];
 
 @NgModule({
