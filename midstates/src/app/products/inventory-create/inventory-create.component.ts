@@ -80,7 +80,7 @@ export class InventoryCreateComponent implements OnInit {
           this.isLoading = false;
           this.inventory = {
             id: inventoryData._id,
-            image: inventoryData.image,
+            imagePath: null,
             brand: inventoryData.brand,
             year: inventoryData.year,
             hours: inventoryData.hours,
@@ -106,7 +106,7 @@ export class InventoryCreateComponent implements OnInit {
     });
   }
 
-  onImagePicked(event: Event){
+  onImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({ image: file });
     this.form.get("image").updateValueAndValidity();
@@ -124,9 +124,8 @@ export class InventoryCreateComponent implements OnInit {
       return;
     }
     this.isLoading = true;
-    if (this.mode === 'edit') {
-      this.inventoriesService.updateInventory(
-        this.inventoryId,
+    if (this.mode === 'create') {
+      this.inventoriesService.addInventory(
         this.form.value.image,
         this.form.value.brand,
         this.form.value.year,
@@ -137,7 +136,8 @@ export class InventoryCreateComponent implements OnInit {
         this.form.value.description
       );
     } else {
-      this.inventoriesService.addInventory(
+      this.inventoriesService.updateInventory(
+        this.inventoryId,
         this.form.value.image,
         this.form.value.brand,
         this.form.value.year,

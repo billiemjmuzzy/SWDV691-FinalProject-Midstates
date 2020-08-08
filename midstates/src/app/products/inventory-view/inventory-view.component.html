@@ -42,6 +42,7 @@
     >
       <thead class="sticky-top" *ngIf="!isLoading">
         <tr>
+          <th>Image Preview</th>
           <th
             [mdbTableSort]="inventories"
             [sortBy]="headElements[1]"
@@ -63,6 +64,15 @@
       </thead>
       <tbody #row>
         <tr mdbTableCol *ngFor="let items of inventories; let i = index">
+          <td
+            class="inventory-image"
+            *ngIf="
+              i + 1 >= mdbTablePagination.firstItemIndex &&
+              i < mdbTablePagination.lastItemIndex
+            "
+          >
+            <img [src]="items.imagePath" [alt]="items.brand" />
+          </td>
           <td
             *ngIf="
               i + 1 >= mdbTablePagination.firstItemIndex &&

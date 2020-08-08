@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 
 import { Inventory } from './inventory.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +29,7 @@ export class InventoriesService {
         return inventoryData.inventories.map(inventory => {
           return {
             id: inventory._id,
-            image: inventory.image,
+            imagePath: inventory.imagePath,
             brand: inventory.brand,
             year: inventory.year,
             hours: inventory.hours,
@@ -49,10 +50,10 @@ export class InventoriesService {
   getInventoryUpdateListener() {
     return this.inventoriesUpdated.asObservable();
   }
-/**
- * Get a single inventory item
- * @param id
- */
+  /**
+   * Get a single inventory item
+   * @param id
+   */
   getInventory(id: string) {
     return this.http.get<{
       _id: string,
@@ -80,54 +81,60 @@ export class InventoriesService {
    * @param description string
    */
   addInventory(
-    image: string,
+    image: File,
     brand: string,
     year: string,
     hours: string,
     condition: string,
     serial: string,
     price: string,
-    description: string)
-  {
-    const inventory: Inventory = {
-      id: null,
-      image: image,
-      brand: brand,
-      year: year,
-      hours: hours,
-      condition: condition,
-      serial: serial,
-      price: price,
-      description: description
-    };
+    description: string) {
+    const inventoryData = new FormData();
+    inventoryData.append("image", image, brand);
+    inventoryData.append("brand", brand);
+    inventoryData.append("year", year);
+    inventoryData.append("hours", hours);
+    inventoryData.append("condition", condition);
+    inventoryData.append("serial", serial);
+    inventoryData.append("price", price);
+    inventoryData.append("description", description);
     this.http
-      .post<{ message: string, inventoryId: string }>(
+      .post<{ message: string, inventory: Inventory }>(
         "http://localhost:3000/api/inventories",
-        inventory)
+        inventoryData
+      )
       .subscribe(responseData => {
-        const id = responseData.inventoryId;
-        inventory.id = id;
+        const inventory: Inventory = {
+          id: responseData.inventory.id,
+          imagePath: responseData.inventory.imagePath,
+          brand: brand,
+          year: year,
+          hours: hours,
+          condition: condition,
+          serial: serial,
+          price: price,
+          description: description
+        };
         this.inventories.push(inventory);
         this.inventoriesUpdated.next([...this.inventories]);
         this.router.navigate(["/"])
       });
   }
-/**
- * Update Inventory:
- * Update a inventory item
- * @param id --id of inventory item
- * @param image
- * @param brand
- * @param year
- * @param hours
- * @param condition
- * @param serial
- * @param price
- * @param description
- */
+  /**
+   * Update Inventory:
+   * Update a inventory item
+   * @param id --id of inventory item
+   * @param image
+   * @param brand
+   * @param year
+   * @param hours
+   * @param condition
+   * @param serial
+   * @param price
+   * @param description
+   */
   updateInventory(
     id: string,
-    image: string,
     brand: string,
     year: string,
     hours: string,
@@ -137,7 +144,7 @@ export class InventoriesService {
     description: string) {
     const inventory: Inventory = {
       id: id,
-      image: image,
+      imagePath: null,
       brand: brand,
       year: year,
       hours: hours,
@@ -156,7 +163,7 @@ export class InventoriesService {
         this.inventoriesUpdated.next([...this.inventories]);
         this.router.navigate(["/"]);
       });
-}
+  }
 
   /**
    * Deletes the inventory item

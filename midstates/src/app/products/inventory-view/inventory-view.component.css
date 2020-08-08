@@ -1,0 +1,8 @@
+.inventory-image{
+  width: 100%
+}
+
+.inventory-image img{
+  width: 10%;
+  box-shadow: 1px 1px 5px rgba(0,0,0 ,0.5);
+}

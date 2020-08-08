@@ -1,6 +1,6 @@
 export interface Inventory {
   id: string,
-  image: string;
+  imagePath: string;
   brand: string;
   year: string;
   hours: string;

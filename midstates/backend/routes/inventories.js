@@ -21,15 +21,19 @@ const storage = multer.diskStorage({
     cb(null, "backend/images");
   },
   filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().split("").join("-");
+    const name = file.originalname
+    .toLowerCase()
+    .split(" ").
+    join("-");
     const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, name + "-" + Date.now() + "." + ext);
-  },
+  }
 });
 
-router.post("", (req, res, next) => {
+router.post("", multer({storage: storage}).single("image"), (req, res, next) => {
+  const url = req.protocol + '://' + req.get("host");
   const inventory = new Inventory({
-    image: req.body.image,
+    imagePath: url + "/images/" + req.file.filename,
     brand: req.body.brand,
     year: req.body.year,
     hours: req.body.hours,
@@ -42,7 +46,17 @@ router.post("", (req, res, next) => {
     //everything is Ok, a new resource was created.
     res.status(201).json({
       message: "Inventory item added successfully",
-      inventoryId: createdInventory._id,
+      inventory: {
+        id: createdInventory._id,
+        imagePath: createdInventory.imagePath,
+        brand: createdInventory.brand,
+        year: createdInventory.year,
+        hours: createdInventory.hours,
+        condition: createdInventory.condition,
+        serial: createdInventory.serial,
+        price: createdInventory.price,
+        description: createdInventory.description
+      }
     });
   });
 });
