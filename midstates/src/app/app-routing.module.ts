@@ -1,4 +1,3 @@
-import { InventoryDetailsComponent } from './products/inventory-details/inventory-details.component';
 import { InventoryCreateComponent } from './products/inventory-create/inventory-create.component';
 import { InventoryViewComponent } from './products/inventory-view/inventory-view.component';
 import { NgModule } from "@angular/core";

@@ -17,13 +17,15 @@ export class InventoriesService {
 
 
   constructor(private http: HttpClient, private router: Router) { }
-  /**
-   * Get Inventories:
-   * Gets all Inventory items.
-   */
-  getInventories() {
+/**
+ * Get all inventory items
+ * @param inventoriesPerPage - number of inventory items per page
+ * @param currentPage - current page the user is on
+ */
+  getInventories(inventoriesPerPage: number, currentPage: number ) {
+    const queryParams = `?pageSize=${inventoriesPerPage}&page=${currentPage}`;
     this.http
-      .get<{ message: string, inventories: any }>('http://localhost:3000/api/inventories')
+      .get<{ message: string, inventories: any }>('http://localhost:3000/api/inventories' + queryParams)
       .pipe(
         map(inventoryData => {
           return inventoryData.inventories.map(inventory => {

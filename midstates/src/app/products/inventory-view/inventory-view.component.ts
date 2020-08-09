@@ -15,8 +15,9 @@ import { InventoriesService } from '../inventories.service';
 export class InventoryViewComponent implements OnInit, OnDestroy {
   inventories: Inventory[] = [];
   isLoading = false;
-  totalInventories = 5;
+  totalInventories = 2;
   inventoriesPerPage = 1;
+  currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   private inventoriesSub: Subscription;
 
@@ -24,7 +25,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.inventoriesService.getInventories();
+    this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
     // create subscription to get inventory data
     this.inventoriesSub = this.inventoriesService.getInventoryUpdateListener()
       .subscribe((inventories: Inventory[]) => {
@@ -39,7 +40,9 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
    */
 
   onChangedPage(pageData: PageEvent) {
-    console.log(pageData);
+    this.currentPage = pageData.pageIndex + 1;
+    this.inventoriesPerPage = pageData.pageSize;
+    this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
 
   }
 
