@@ -91,8 +91,15 @@ router.put(
 );
 
 router.get("", (req, res, next) => {
-  Inventory.find().then((documents) => {
-    //Everything is ok
+  const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const inventoryQuery = Inventory.find();
+  if(pageSize && currentPage){
+    inventoryQuery
+    .skip(pageSize * (currentPage - 1))
+    .limit(pageSize);
+  }
+ inventoryQuery.then((documents) => {
     res.status(200).json({
       message: "Inventories fetched successfully!",
       inventories: documents,
