@@ -11,10 +11,13 @@ import { InventoriesService } from '../inventories.service';
   templateUrl: './inventory-view.component.html',
   styleUrls: ['./inventory-view.component.css']
 })
+
 export class InventoryViewComponent implements OnInit, OnDestroy {
   inventories: Inventory[] = [];
   isLoading = false;
-  totalInventories = 2;
+  totalInventories = 5;
+  inventoriesPerPage = 1;
+  pageSizeOptions = [1, 2, 5, 10];
   private inventoriesSub: Subscription;
 
   constructor(public inventoriesService: InventoriesService) { }
@@ -31,8 +34,19 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Deletes the inventory item
+   *
+   * @param pageData- Object containing data about current page
    */
+
+  onChangedPage(pageData: PageEvent) {
+    console.log(pageData);
+
+  }
+
+/**
+ * Delete inventory item
+ * @param inventoryId - string ID of inventory item
+ */
   onDelete(inventoryId: string) {
     this.inventoriesService.deleteInventory(inventoryId);
   }

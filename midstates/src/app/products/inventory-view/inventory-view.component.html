@@ -1,131 +1,144 @@
-<div class="row">
-  <div class="col-3 mt-5"></div>
-  <div class="col-md-6 mt-5 mx-auto">
-    <h1 class="text-center display-4 mb-4">
-      <span class="blue-accent-text"> Inventory</span> Data
-    </h1>
-    <hr />
+<content>
+  <div class="row">
+    <div class="col-3 mt-5"></div>
+    <div class="col-md-6 mt-5 mx-auto">
+      <h1 class="text-center display-4 mb-4">
+        <span class="blue-accent-text"> Inventory</span> Data
+      </h1>
+      <hr />
 
-    <div class="text-center">
-      <mdb-spinner *ngIf="isLoading" spinnerColor="blue"></mdb-spinner>
-    </div>
+      <div class="text-center">
+        <mdb-spinner *ngIf="isLoading" spinnerColor="blue"></mdb-spinner>
+      </div>
 
-    <div
-      *ngIf="inventories.length <= 0 && !isLoading"
-      class="alert alert-danger"
-      role="alert"
-    >
-      <p>No inventory items have been added yet.</p>
-      <p>Please click on the NEW ITEM button to add a new inventory item.</p>
-    </div>
-    <mdb-accordion
-      [multiple]="true"
-      *ngIf="inventories.length > 0 && !isLoading"
-    >
-      <mdb-accordion-item
-        [collapsed]="true"
-        *ngFor="let inventory of inventories"
+      <div
+        *ngIf="inventories.length <= 0 && !isLoading"
+        class="alert alert-danger"
+        role="alert"
       >
-        <mdb-accordion-item-head>{{
-          inventory.brand + " " + inventory.year
-        }}</mdb-accordion-item-head>
-        <mdb-accordion-item-body>
-          <img
-            [src]="inventory.imagePath"
-            [alt]="inventory.brand"
-            class="img-thumbnail rounded mx-auto d-block mb-3"
-          />
-
-          <div class="row">
-            <div class="col-3">
-              <span class="blue-accent-text text-uppercase"
-                >sn/vin</span
-              >
-            </div>
-            <div class="col-9">
-              {{ inventory.serial }}
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-3">
-              <span class="blue-accent-text text-uppercase">condition</span>
-            </div>
-            <div class="col-9">
-              {{ inventory.condition }}
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-3">
-              <span class="blue-accent-text text-uppercase">hours</span>
-            </div>
-            <div class="col-9">
-              {{ inventory.hours }}
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-3">
-              <span class="blue-accent-text text-uppercase">price</span>
-            </div>
-            <div class="col-9">$ {{ inventory.price }}</div>
-          </div>
-
-          <div class="row">
-            <div class="col-3">
-              <span class="blue-accent-text text-uppercase">description</span>
-            </div>
-            <div class="col-9">
-              {{ inventory.description }}
-            </div>
-          </div>
-
-          <div
-            class="btn-group float-left mb-1"
-            role="group"
-            aria-label="Basic example"
+        <p>No inventory items have been added yet.</p>
+        <p>Please click on the NEW ITEM button to add a new inventory item.</p>
+      </div>
+      <mdb-card>
+        <mdb-card-body class="px-lg-5 pt-0">
+          <mdb-accordion
+            [multiple]="true"
+            *ngIf="inventories.length > 0 && !isLoading"
           >
-            <button
-              mdbBtn
-              type="button"
-              color="secondary"
-              class="waves-light"
-              mdbWavesEffect
-              [routerLink]="['/edit', inventory.id]"
+            <mdb-accordion-item
+              [collapsed]="true"
+              *ngFor="let inventory of inventories"
             >
-              <mdb-icon fas icon="edit"></mdb-icon>
-              Edit
-            </button>
-            <button
-              mdbBtn
-              type="button"
-              color="danger"
-              class="waves-light"
-              mdbWavesEffect
-              (click)="onDelete(inventory.id)"
-            >
-              <mdb-icon fas icon="trash-alt"> </mdb-icon>
-              Delete
-            </button>
-          </div>
-        </mdb-accordion-item-body>
-      </mdb-accordion-item>
-    </mdb-accordion>
-    <mat-paginator></mat-paginator>
-  </div>
+              <mdb-accordion-item-head>{{
+                inventory.brand + " " + inventory.year
+              }}</mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <img
+                  [src]="inventory.imagePath"
+                  [alt]="inventory.brand"
+                  class="img-thumbnail rounded mx-auto d-block mb-3"
+                />
 
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase">sn/vin</span>
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.serial }}
+                  </div>
+                </div>
 
-  <div class="col-3 mt-5">
-    <button
-      mdbBtn
-      type="button"
-      color="secondary"
-      outline="true"
-      mdbWavesEffect
-    >
-      <mdb-icon fas icon="plus-circle"></mdb-icon>
-      <a routerLink="/create">New Item</a>
-    </button>
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase"
+                      >condition</span
+                    >
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.condition }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase">hours</span>
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.hours }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase">price</span>
+                  </div>
+                  <div class="col-9">$ {{ inventory.price }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase"
+                      >description</span
+                    >
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.description }}
+                  </div>
+                </div>
+
+                <div
+                  class="btn-group float-left mb-1"
+                  role="group"
+                  aria-label="Basic example"
+                >
+                  <button
+                    mdbBtn
+                    type="button"
+                    color="secondary"
+                    class="waves-light"
+                    mdbWavesEffect
+                    [routerLink]="['/edit', inventory.id]"
+                  >
+                    <mdb-icon fas icon="edit"></mdb-icon>
+                    Edit
+                  </button>
+                  <button
+                    mdbBtn
+                    type="button"
+                    color="danger"
+                    class="waves-light"
+                    mdbWavesEffect
+                    (click)="onDelete(inventory.id)"
+                  >
+                    <mdb-icon fas icon="trash-alt"> </mdb-icon>
+                    Delete
+                  </button>
+                </div>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+          </mdb-accordion>
+        </mdb-card-body>
+      </mdb-card>
+      <mat-paginator
+        [length]="totalInventories"
+        [pageSize]="inventoriesPerPage"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onChangedPage($event)"
+      >
+      </mat-paginator>
+    </div>
+
+    <div class="col-3 mt-5">
+      <button
+        mdbBtn
+        type="button"
+        color="secondary"
+        outline="true"
+        mdbWavesEffect
+      >
+        <mdb-icon fas icon="plus-circle"></mdb-icon>
+        <a routerLink="/create">New Item</a>
+      </button>
+    </div>
   </div>
-</div>
+</content>
