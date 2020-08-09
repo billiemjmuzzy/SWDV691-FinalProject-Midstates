@@ -1,163 +1,147 @@
-<div class="row">
-  <div class="col-3"></div>
-  <div class="col-md-6 mt-5 mx-auto">
-    <!-- TODO add search functionality -->
-    <!-- <div class="md-form">
-      <input
-        type="text"
-        class="form-control"
-        [(ngModel)]="searchText"
-        (keyup)="searchItems()"
-        id="search-input"
-        mdbInput
-      />
-      <label for="search-input">Search</label>
-    </div> -->
-    <h1 class="text-center display-4 mb-4">
-      <span class="blue-accent-text"> Inventory</span> Data
-    </h1>
+<content>
+  <div class="row">
+    <div class="col-3 mt-5"></div>
+    <div class="col-md-6 mt-5 mx-auto">
+      <h1 class="text-center display-4 mb-4">
+        <span class="blue-accent-text"> Inventory</span> Data
+      </h1>
+      <hr />
 
-    <div class="text-center">
-      <mdb-spinner *ngIf="isLoading" spinnerColor="blue"></mdb-spinner>
+      <div class="text-center">
+        <mdb-spinner *ngIf="isLoading" spinnerColor="blue"></mdb-spinner>
+      </div>
+
+      <div
+        *ngIf="inventories.length <= 0 && !isLoading"
+        class="alert alert-danger"
+        role="alert"
+      >
+        <p>No inventory items have been added yet.</p>
+        <p>Please click on the NEW ITEM button to add a new inventory item.</p>
+      </div>
+      <mdb-card>
+        <mdb-card-body class="px-lg-5 pt-0">
+          <mdb-accordion
+            [multiple]="true"
+            *ngIf="inventories.length > 0 && !isLoading"
+          >
+            <mdb-accordion-item
+              [collapsed]="true"
+              *ngFor="let inventory of inventories"
+            >
+              <mdb-accordion-item-head class="text-uppercase">{{
+                inventory.brand + " " + inventory.year
+              }}</mdb-accordion-item-head>
+              <mdb-accordion-item-body>
+                <img
+                  [src]="inventory.imagePath"
+                  [alt]="inventory.brand"
+                  class="img-thumbnail rounded mx-auto d-block mb-3"
+                />
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase">sn/vin</span>
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.serial }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase"
+                      >condition</span
+                    >
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.condition }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase">hours</span>
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.hours }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase">price</span>
+                  </div>
+                  <div class="col-9">$ {{ inventory.price }}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <span class="blue-accent-text text-uppercase"
+                      >description</span
+                    >
+                  </div>
+                  <div class="col-9">
+                    {{ inventory.description }}
+                  </div>
+                </div>
+
+                <div
+                  class="btn-group float-left mb-1"
+                  role="group"
+                  aria-label="Basic example"
+                >
+                  <button
+                    mdbBtn
+                    type="button"
+                    color="secondary"
+                    class="waves-light"
+                    mdbWavesEffect
+                    [routerLink]="['/edit', inventory.id]"
+                  >
+                    <mdb-icon fas icon="edit"></mdb-icon>
+                    Edit
+                  </button>
+                  <button
+                    mdbBtn
+                    type="button"
+                    color="danger"
+                    class="waves-light"
+                    mdbWavesEffect
+                    (click)="onDelete(inventory.id)"
+
+                  >
+                    <mdb-icon fas icon="trash-alt"> </mdb-icon>
+                    Delete
+                  </button>
+                </div>
+              </mdb-accordion-item-body>
+            </mdb-accordion-item>
+          </mdb-accordion>
+          <mat-paginator
+          [length]="totalInventories"
+          [pageSize]="inventoriesPerPage"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="onChangedPage($event)"
+          *ngIf="inventories.length > 0"
+        >
+        </mat-paginator>
+        </mdb-card-body>
+      </mdb-card>
+
     </div>
 
-    <div
-      *ngIf="inventories.length <= 0 && !isLoading"
-      class="alert alert-danger"
-      role="alert"
-    >
-      <p>No inventory items have been added yet.</p>
-      <p>Please click on New Item to add a new inventory item.</p>
+    <div class="col-3 mt-5">
+      <button
+        mdbBtn
+        type="button"
+        color="secondary"
+        outline="true"
+        mdbWavesEffect
+      >
+        <mdb-icon fas icon="plus-circle"></mdb-icon>
+        <a routerLink="/create">New Item</a>
+      </button>
     </div>
-
-    <!-- TODO prevent table from displaying if no inventory items  -->
-
-    <table
-      mdbTable
-      #tableEl="mdbTable"
-      stickyHeader="true"
-      hover="true"
-      striped="true"
-      class="z-depth-1"
-    >
-      <thead class="sticky-top" *ngIf="!isLoading">
-        <tr>
-          <th
-            [mdbTableSort]="inventories"
-            [sortBy]="headElements[1]"
-            scope="col"
-            background-color="purple"
-          >
-            Brand
-            <mdb-icon fas icon="sort"></mdb-icon>
-          </th>
-          <!-- TODO add sorting for condition -->
-          <th>Condition</th>
-          <!-- TODO add sorting for price -->
-          <th>Price</th>
-          <th>Description</th>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody #row>
-        <tr mdbTableCol *ngFor="let items of inventories; let i = index">
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.brand }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.condition }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.price }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            {{ items.description }}
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            <button
-              mdbBtn
-              type="button"
-              color="danger"
-              rounded="true"
-              mdbWavesEffect
-              (click)="onDelete(items.id)"
-            >
-              <mdb-icon fas icon="trash-alt"> </mdb-icon>
-              Delete
-            </button>
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            <a text-color="secondary" [routerLink]="['/edit', items.id]"
-              >Edit</a
-            >
-          </td>
-          <td
-            *ngIf="
-              i + 1 >= mdbTablePagination.firstItemIndex &&
-              i < mdbTablePagination.lastItemIndex
-            "
-          >
-            <a text-color="secondary" [routerLink]="['/details', items.id]"
-              >Details</a
-            >
-          </td>
-        </tr>
-      </tbody>
-      <tfoot class="grey lighten-5 w-100">
-        <tr>
-          <td colspan="12">
-            <mdb-table-pagination
-              [tableEl]="tableEl"
-              paginationAlign=""
-              [searchDataSource]="inventories"
-            ></mdb-table-pagination>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
   </div>
-  <div class="col-3 mt-5">
-    <button
-      mdbBtn
-      type="button"
-      color="secondary"
-      outline="true"
-      mdbWavesEffect
-    >
-      <mdb-icon fas icon="plus-circle"></mdb-icon>
-      <a routerLink="/create">New Item</a>
-    </button>
-  </div>
-</div>
+</content>
