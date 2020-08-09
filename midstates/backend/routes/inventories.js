@@ -69,7 +69,7 @@ router.put(
     let imagePath = req.body.imagePath;
     if (req.file) {
       const url = req.protocol + "://" + req.get("host");
-      imagePath: url + "/images/" + req.file.filename
+      imagePath: url + "/images/" + req.file.filename;
     }
     const inventory = new Inventory({
       _id: req.body.id,
@@ -80,7 +80,7 @@ router.put(
       condition: req.body.condition,
       serial: req.body.serial,
       price: req.body.price,
-      description: req.body.description
+      description: req.body.description,
     });
     console.log(inventory);
     Inventory.updateOne({ _id: req.params.id }, inventory).then((result) => {
@@ -95,25 +95,25 @@ router.get("", (req, res, next) => {
   const currentPage = +req.query.page;
   const inventoryQuery = Inventory.find();
   let fetchedInventories;
-  if(pageSize && currentPage){
-    inventoryQuery
-    .skip(pageSize * (currentPage - 1))
-    .limit(pageSize);
+  if (pageSize && currentPage) {
+    inventoryQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
   }
- inventoryQuery.then(documents => {
-    return Inventory.count();
+  inventoryQuery
+    .then(documents => {
+      fetchedInventories = documents;
+      return Inventory.estimatedDocumentCount();
     })
-    .then(count => {
+    .then(estimatedDocumentCount => {
       res.status(200).json({
         message: "Inventory items fetched successfully!",
         inventories: fetchedInventories,
-        maxInventories: count
+        maxInventories: estimatedDocumentCount
       });
     });
-  });
+});
 
 router.get("/:id", (req, res, next) => {
-  Inventory.findById(req.params.id).then((inventory) => {
+  Inventory.findById(req.params.id).then(inventory => {
     if (inventory) {
       res.status(200).json(inventory);
     } else {

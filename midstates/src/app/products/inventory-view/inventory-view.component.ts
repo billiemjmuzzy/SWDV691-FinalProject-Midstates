@@ -15,8 +15,8 @@ import { InventoriesService } from '../inventories.service';
 export class InventoryViewComponent implements OnInit, OnDestroy {
   inventories: Inventory[] = [];
   isLoading = false;
-  totalInventories = 2;
-  inventoriesPerPage = 1;
+  totalInventories = 0;
+  inventoriesPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
   private inventoriesSub: Subscription;
@@ -27,10 +27,12 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
     // create subscription to get inventory data
-    this.inventoriesSub = this.inventoriesService.getInventoryUpdateListener()
-      .subscribe((inventories: Inventory[]) => {
+    this.inventoriesSub = this.inventoriesService
+      .getInventoryUpdateListener()
+      .subscribe((inventoryData: { inventories: Inventory[], inventoryCount: number }) => {
         this.isLoading = false;
-        this.inventories = inventories;
+        this.totalInventories = inventoryData.inventoryCount;
+        this.inventories = inventoryData.inventories;
       });
   }
 
@@ -52,7 +54,10 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
  * @param inventoryId - string ID of inventory item
  */
   onDelete(inventoryId: string) {
-    this.inventoriesService.deleteInventory(inventoryId);
+    this.isLoading = true;
+    this.inventoriesService.deleteInventory(inventoryId).subscribe(() => {
+      this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
+    });
   }
 
 

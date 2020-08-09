@@ -25,10 +25,12 @@ export class InventoriesService {
   getInventories(inventoriesPerPage: number, currentPage: number ) {
     const queryParams = `?pageSize=${inventoriesPerPage}&page=${currentPage}`;
     this.http
-      .get<{ message: string, inventories: any, maxInventories: number}>('http://localhost:3000/api/inventories' + queryParams)
+      .get<{ message: string, inventories: any, maxInventories: number }>(
+        'http://localhost:3000/api/inventories' + queryParams)
       .pipe(
         map(inventoryData => {
-          return {inventories: inventoryData.inventories.map(inventory => {
+          return {
+            inventories: inventoryData.inventories.map(inventory => {
             return {
               id: inventory._id,
               imagePath: inventory.imagePath,
@@ -41,7 +43,9 @@ export class InventoriesService {
               description: inventory.description,
               createdDate: inventory.createdDate
             };
-          }), maxInventories: inventoryData.maxInventories};
+          }),
+            maxInventories: inventoryData.maxInventories
+          };
         })
       )
       .subscribe(transformedInventoriesData => {
@@ -107,19 +111,6 @@ export class InventoriesService {
         inventoryData
       )
       .subscribe(responseData => {
-        const inventory: Inventory = {
-          id: responseData.inventory.id,
-          imagePath: responseData.inventory.imagePath,
-          brand: brand,
-          year: year,
-          hours: hours,
-          condition: condition,
-          serial: serial,
-          price: price,
-          description: description
-        };
-        this.inventories.push(inventory);
-        this.inventoriesUpdated.next([...this.inventories]);
         this.router.navigate(["/"])
       });
   }
@@ -173,34 +164,13 @@ export class InventoriesService {
     this.http
       .put("http://localhost:3000/api/inventories/" + id, inventoryData)
       .subscribe(response => {
-        const updatedInventories = [...this.inventories];
-        const oldInventoryIndex = updatedInventories.findIndex(i => i.id === id);
-        const inventory: Inventory = {
-          id: id,
-          imagePath: "",
-          brand: brand,
-          year: year,
-          hours: hours,
-          condition: condition,
-          serial: serial,
-          price: price,
-          description: description
-        };
-        updatedInventories[oldInventoryIndex] = inventory;
-        this.inventories = updatedInventories;
-        this.inventoriesUpdated.next([...this.inventories]);
         this.router.navigate(["/"]);
       });
   }
 
 
   deleteInventory(inventoryId: string) {
-    this.http
+    return this.http
       .delete("http://localhost:3000/api/inventories/" + inventoryId)
-      .subscribe(() => {
-        const updatedInventories = this.inventories.filter(inventory => inventory.id !== inventoryId);
-        this.inventories = updatedInventories;
-        this.inventoriesUpdated.next([...this.inventories]);
-      });
   }
 }

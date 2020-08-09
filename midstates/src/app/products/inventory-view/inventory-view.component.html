@@ -109,7 +109,7 @@
                     class="waves-light"
                     mdbWavesEffect
                     (click)="onDelete(inventory.id)"
-                    *ngIf="inventories.length > 0"
+
                   >
                     <mdb-icon fas icon="trash-alt"> </mdb-icon>
                     Delete
@@ -118,15 +118,17 @@
               </mdb-accordion-item-body>
             </mdb-accordion-item>
           </mdb-accordion>
+          <mat-paginator
+          [length]="totalInventories"
+          [pageSize]="inventoriesPerPage"
+          [pageSizeOptions]="pageSizeOptions"
+          (page)="onChangedPage($event)"
+          *ngIf="inventories.length > 0"
+        >
+        </mat-paginator>
         </mdb-card-body>
       </mdb-card>
-      <mat-paginator
-        [length]="totalInventories"
-        [pageSize]="inventoriesPerPage"
-        [pageSizeOptions]="pageSizeOptions"
-        (page)="onChangedPage($event)"
-      >
-      </mat-paginator>
+
     </div>
 
     <div class="col-3 mt-5">
