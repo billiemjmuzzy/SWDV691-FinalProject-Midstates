@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule} from '@angular/forms';
 import { MDBBootstrapModulesPro, MDBSpinningPreloader } from 'ng-uikit-pro-standard';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -27,6 +28,7 @@ import { InventoryDetailsComponent } from './products/inventory-details/inventor
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MDBBootstrapModulesPro.forRoot(),
+    MatPaginatorModule,
     HttpClientModule
   ],
   providers: [

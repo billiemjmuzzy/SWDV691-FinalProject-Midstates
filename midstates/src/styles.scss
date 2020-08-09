@@ -79,3 +79,6 @@ $skins: map-merge((
 @import '~ng-uikit-pro-standard/assets/scss/core/variables';
 @import '~ng-uikit-pro-standard/assets/scss/core/variables-pro';
 @import '~ng-uikit-pro-standard/assets/scss/core/msc/skins-pro';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

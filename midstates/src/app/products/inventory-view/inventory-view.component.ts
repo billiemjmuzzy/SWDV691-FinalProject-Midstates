@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 import { Inventory } from '../inventory.model';
 import { InventoriesService } from '../inventories.service';
@@ -13,6 +14,7 @@ import { InventoriesService } from '../inventories.service';
 export class InventoryViewComponent implements OnInit, OnDestroy {
   inventories: Inventory[] = [];
   isLoading = false;
+  totalInventories = 2;
   private inventoriesSub: Subscription;
 
   constructor(public inventoriesService: InventoriesService) { }
