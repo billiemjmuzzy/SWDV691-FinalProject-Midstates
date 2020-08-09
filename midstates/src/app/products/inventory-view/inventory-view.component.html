@@ -109,6 +109,7 @@
                     class="waves-light"
                     mdbWavesEffect
                     (click)="onDelete(inventory.id)"
+                    *ngIf="inventories.length > 0"
                   >
                     <mdb-icon fas icon="trash-alt"> </mdb-icon>
                     Delete

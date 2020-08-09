@@ -40,6 +40,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
    */
 
   onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
     this.inventoriesPerPage = pageData.pageSize;
     this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);

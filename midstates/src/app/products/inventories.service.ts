@@ -13,7 +13,7 @@ import { Inventory } from './inventory.model';
 
 export class InventoriesService {
   private inventories: Inventory[] = [];
-  private inventoriesUpdated = new Subject<Inventory[]>();
+  private inventoriesUpdated = new Subject<{inventories: Inventory[], inventoryCount: number}>();
 
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -25,10 +25,10 @@ export class InventoriesService {
   getInventories(inventoriesPerPage: number, currentPage: number ) {
     const queryParams = `?pageSize=${inventoriesPerPage}&page=${currentPage}`;
     this.http
-      .get<{ message: string, inventories: any }>('http://localhost:3000/api/inventories' + queryParams)
+      .get<{ message: string, inventories: any, maxInventories: number}>('http://localhost:3000/api/inventories' + queryParams)
       .pipe(
         map(inventoryData => {
-          return inventoryData.inventories.map(inventory => {
+          return {inventories: inventoryData.inventories.map(inventory => {
             return {
               id: inventory._id,
               imagePath: inventory.imagePath,
@@ -41,12 +41,15 @@ export class InventoriesService {
               description: inventory.description,
               createdDate: inventory.createdDate
             };
-          });
+          }), maxInventories: inventoryData.maxInventories};
         })
       )
-      .subscribe(transformedInventories => {
-        this.inventories = transformedInventories;
-        this.inventoriesUpdated.next([...this.inventories]);
+      .subscribe(transformedInventoriesData => {
+        this.inventories = transformedInventoriesData.inventories;
+        this.inventoriesUpdated.next({
+          inventories: [...this.inventories],
+          inventoryCount: transformedInventoriesData.maxInventories
+        });
       });
   }
 

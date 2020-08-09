@@ -94,18 +94,23 @@ router.get("", (req, res, next) => {
   const pageSize = +req.query.pagesize;
   const currentPage = +req.query.page;
   const inventoryQuery = Inventory.find();
+  let fetchedInventories;
   if(pageSize && currentPage){
     inventoryQuery
     .skip(pageSize * (currentPage - 1))
     .limit(pageSize);
   }
- inventoryQuery.then((documents) => {
-    res.status(200).json({
-      message: "Inventories fetched successfully!",
-      inventories: documents,
+ inventoryQuery.then(documents => {
+    return Inventory.count();
+    })
+    .then(count => {
+      res.status(200).json({
+        message: "Inventory items fetched successfully!",
+        inventories: fetchedInventories,
+        maxInventories: count
+      });
     });
   });
-});
 
 router.get("/:id", (req, res, next) => {
   Inventory.findById(req.params.id).then((inventory) => {
