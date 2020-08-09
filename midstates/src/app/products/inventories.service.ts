@@ -23,7 +23,7 @@ export class InventoriesService {
  * @param currentPage - current page the user is on
  */
   getInventories(inventoriesPerPage: number, currentPage: number ) {
-    const queryParams = `?pageSize=${inventoriesPerPage}&page=${currentPage}`;
+    const queryParams = `?pagesize=${inventoriesPerPage}&page=${currentPage}`;
     this.http
       .get<{ message: string, inventories: any, maxInventories: number }>(
         'http://localhost:3000/api/inventories' + queryParams)
