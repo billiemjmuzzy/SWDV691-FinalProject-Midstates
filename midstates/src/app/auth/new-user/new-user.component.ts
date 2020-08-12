@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from "@angular/forms"
 
 @Component({
   selector: 'app-new-user',
@@ -6,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./new-user.component.css']
 })
 export class NewUserComponent implements OnInit {
+  isLoading = false
+
+  onNewUser(form: NgForm) {
+    console.log(form.value)
+  }
 
   constructor() { }
 
