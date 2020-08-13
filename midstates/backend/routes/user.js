@@ -49,7 +49,7 @@ router.post("/login", (req, res, next) => {
       }
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
-        // TODO update secret so it meets  the standards
+        // TODO update secret so it meets  the standards (update also in check-auth.js)
         "secret_this_should_be_longer",
         { expiresIn: "1h" }
       );
