@@ -4,7 +4,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 require("dotenv/config");
 
-const inventoriesRoutes = require("./routes/inventories")
+const inventoriesRoutes = require("./routes/inventories");
+const usersRoutes = require("./routes/user");
 
 const app = express();
 
@@ -40,5 +41,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/inventories",inventoriesRoutes);
+app.use("/api/user",userRoutes);
 
 module.exports = app;
