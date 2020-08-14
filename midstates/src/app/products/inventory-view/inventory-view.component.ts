@@ -4,6 +4,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { Inventory } from '../inventory.model';
 import { InventoriesService } from '../inventories.service';
+import { AuthService } from "../../auth/auth.service";
 
 
 @Component({
@@ -19,9 +20,11 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   inventoriesPerPage = 2;
   currentPage = 1;
   pageSizeOptions = [1, 2, 5, 10];
+  userIsAuthenticated = false;
   private inventoriesSub: Subscription;
+  private authStatusSub: Subscription;
 
-  constructor(public inventoriesService: InventoriesService) { }
+  constructor(public inventoriesService: InventoriesService, private authService: AuthService) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -33,6 +36,12 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.totalInventories = inventoryData.inventoryCount;
         this.inventories = inventoryData.inventories;
+      });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
       });
   }
 
@@ -64,6 +73,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // removes subscription and prevents memory links
     this.inventoriesSub.unsubscribe();
+    this.authStatusSub.unsubscribe();
 
   }
 
