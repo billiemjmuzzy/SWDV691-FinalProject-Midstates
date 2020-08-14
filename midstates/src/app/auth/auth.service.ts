@@ -32,8 +32,6 @@ export class AuthService {
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
-
-
   /**
    * Method to create a new user
    *
@@ -42,9 +40,13 @@ export class AuthService {
    */
   createUser(email: string, password: string) {
     const authData: AuthData = { email: email, password: password };
-    this.http.post('http://localhost:3000/api/user/new-user', authData)
-      .subscribe(response => {
-        console.log(response);
+    return this.http.post('http://localhost:3000/api/user/new-user', authData)
+      .subscribe(() => {
+        // TODO create user view for super admin to view users of application
+        //TODO Navigation to user view
+        this.router.navigate(['/']);
+      }, error => {
+          this.authStatusListener.next(false);
       });
   }
   /**
