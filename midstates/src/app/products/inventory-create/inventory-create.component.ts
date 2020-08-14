@@ -80,7 +80,8 @@ export class InventoryCreateComponent implements OnInit {
             condition: inventoryData.condition,
             serial: inventoryData.serial,
             price: inventoryData.price,
-            description: inventoryData.description
+            description: inventoryData.description,
+            creator: inventoryData.creator
           };
           this.form.setValue({
             image: this.inventory.imagePath,

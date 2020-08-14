@@ -60,6 +60,7 @@ router.post(
           serial: createdInventory.serial,
           price: createdInventory.price,
           description: createdInventory.description,
+          creator: createdInventory.creator
         },
       });
     });
@@ -86,6 +87,7 @@ router.put(
       serial: req.body.serial,
       price: req.body.price,
       description: req.body.description,
+      creator: req.userData.userId
     });
     console.log(inventory);
     // adding user Id to prevent a different user from deleting the post

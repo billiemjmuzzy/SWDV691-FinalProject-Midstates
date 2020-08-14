@@ -73,7 +73,8 @@ export class InventoriesService {
       condition: string,
       serial: string,
       price: string,
-      description: string
+      description: string,
+      creator: string
     }>("http://localhost:3000/api/inventories/" + id);
   }
 
@@ -160,7 +161,8 @@ export class InventoriesService {
         condition: condition,
         serial: serial,
         price: price,
-        description: description
+        description: description,
+        creator: null
       };
     }
     this.http

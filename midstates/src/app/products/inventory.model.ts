@@ -8,4 +8,5 @@ export interface Inventory {
   serial: string;
   price: string;
   description: string;
+  creator: string;
 }
