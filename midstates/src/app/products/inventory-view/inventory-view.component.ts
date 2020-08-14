@@ -68,6 +68,8 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.inventoriesService.deleteInventory(inventoryId).subscribe(() => {
       this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
+    }, () => {
+        this.isLoading = false;
     });
   }
 

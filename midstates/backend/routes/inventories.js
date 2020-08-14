@@ -62,6 +62,12 @@ router.post(
           description: createdInventory.description,
           creator: createdInventory.creator
         },
+      })
+      .catch(error => {
+        res.status(500).json({
+          message: "Adding an inventory item failed!"
+        })
+
       });
     });
   }
@@ -98,7 +104,11 @@ router.put(
       } else {
         res.status(401).json({message: "Not authorized"});
       }
-
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "Unable to update post!"
+      })
     });
   }
 );
@@ -121,6 +131,11 @@ router.get("", (req, res, next) => {
         message: "Inventory items fetched successfully!",
         inventories: fetchedInventories,
         maxInventories: estimatedDocumentCount
+      });
+    })
+    .catch(error=>{
+      res.status(500).json({
+        message: "Unable to retrieve inventory items!"
       });
     });
 });
@@ -145,6 +160,11 @@ router.delete("/:id", checkAuth, (req, res, next) => {
       res.status(401).json({message: "Not authorized to delete this post"});
     }
 
+  })
+  .catch(error=>{
+    res.status(500).json({
+      message: "Unable to delete inventory items!"
+    });
   });
 }
 );
