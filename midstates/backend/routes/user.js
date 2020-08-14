@@ -51,10 +51,11 @@ router.post("/login", (req, res, next) => {
         { email: fetchedUser.email, userId: fetchedUser._id },
         // TODO update secret so it meets  the standards (update also in check-auth.js)
         "secret_this_should_be_longer",
-        { expiresIn: "1h" }
+        { expiresIn: "12h" }
       );
       res.status(200).json({
-        token: token
+        token: token,
+        expiresIn: 43200 //12 hours
       });
     })
     .catch(err => {
