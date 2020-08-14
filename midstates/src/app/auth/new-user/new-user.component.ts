@@ -14,7 +14,6 @@ export class NewUserComponent implements OnInit, OnDestroy {
 
   constructor(public authService: AuthService) { }
 
-
   ngOnInit(): void {
     this.authStatusSub = this.authService.getAuthStatusListener()
       .subscribe(
