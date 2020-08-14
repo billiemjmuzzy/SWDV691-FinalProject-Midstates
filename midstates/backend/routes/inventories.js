@@ -44,6 +44,7 @@ router.post(
       serial: req.body.serial,
       price: req.body.price,
       description: req.body.description,
+      creator: req.userData.userId
     });
     inventory.save().then((createdInventory) => {
       //everything is Ok, a new resource was created.

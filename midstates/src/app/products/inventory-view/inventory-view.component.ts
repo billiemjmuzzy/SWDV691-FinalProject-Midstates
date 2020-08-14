@@ -17,9 +17,9 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   inventories: Inventory[] = [];
   isLoading = false;
   totalInventories = 0;
-  inventoriesPerPage = 2;
+  inventoriesPerPage = 5;
   currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  pageSizeOptions = [1, 5, 10, 25];
   userIsAuthenticated = false;
   private inventoriesSub: Subscription;
   private authStatusSub: Subscription;

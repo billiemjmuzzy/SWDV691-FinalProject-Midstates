@@ -41,6 +41,7 @@ export class InventoriesService {
               serial: inventory.serial,
               price: inventory.price,
               description: inventory.description,
+              creator: inventory.creator,
               createdDate: inventory.createdDate
             };
           }),
@@ -49,6 +50,7 @@ export class InventoriesService {
         })
       )
       .subscribe(transformedInventoriesData => {
+        console.log(transformedInventoriesData);
         this.inventories = transformedInventoriesData.inventories;
         this.inventoriesUpdated.next({
           inventories: [...this.inventories],

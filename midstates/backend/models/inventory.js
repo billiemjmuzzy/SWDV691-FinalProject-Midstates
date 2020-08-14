@@ -32,12 +32,17 @@ const inventorySchema = mongoose.Schema({
   description: {
     type: String,
     required: true
+  },
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
-  // ,
-  // createdDate: {
-  //   type: Date,
-  //   default: Date.now,
-  // },
+  ,
+  createdDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model("Inventory", inventorySchema);
