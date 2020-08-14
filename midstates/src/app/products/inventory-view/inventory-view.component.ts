@@ -21,6 +21,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   currentPage = 1;
   pageSizeOptions = [1, 5, 10, 25];
   userIsAuthenticated = false;
+  userId: string;
   private inventoriesSub: Subscription;
   private authStatusSub: Subscription;
 
@@ -29,7 +30,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = true;
     this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
-    // create subscription to get inventory data
+    this.userId = this.authService.getUserId();
     this.inventoriesSub = this.inventoriesService
       .getInventoryUpdateListener()
       .subscribe((inventoryData: { inventories: Inventory[], inventoryCount: number }) => {
@@ -42,6 +43,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
       });
   }
 
