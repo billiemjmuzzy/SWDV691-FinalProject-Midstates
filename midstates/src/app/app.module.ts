@@ -1,3 +1,4 @@
+import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error-interceptor';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { AppRoutingModule } from './app-routing.module';
@@ -6,7 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { MDBBootstrapModulesPro, MDBSpinningPreloader } from 'ng-uikit-pro-standard';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
@@ -25,7 +27,8 @@ import { LoginComponent } from './auth/login/login.component';
     HeaderComponent,
     InventoryViewComponent,
     NewUserComponent,
-    LoginComponent
+    LoginComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { LoginComponent } from './auth/login/login.component';
     BrowserAnimationsModule,
     MDBBootstrapModulesPro.forRoot(),
     MatPaginatorModule,
+    MatDialogModule,
     HttpClientModule
   ],
   providers: [
@@ -50,6 +54,7 @@ import { LoginComponent } from './auth/login/login.component';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
