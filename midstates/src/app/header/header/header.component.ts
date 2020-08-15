@@ -1,5 +1,8 @@
-import { Component, HostListener, ViewChild, Renderer2, AfterViewInit, ElementRef } from '@angular/core';
-import { NavbarComponent } from 'ng-uikit-pro-standard';
+import { AuthService } from './../../auth/auth.service';
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+
+
 
 /**
  * Header component
@@ -9,45 +12,27 @@ import { NavbarComponent } from 'ng-uikit-pro-standard';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements AfterViewInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  @ViewChild('nav', { static: true }) nav: NavbarComponent;
+  userIsAuthenticated = false;
+  private authListenerSubs: Subscription;
 
-constructor(private renderer: Renderer2, private el: ElementRef) {}
+  constructor(private authService: AuthService) {}
 
-transformDropdowns() {
-const dropdownMenu = Array.from(this.el.nativeElement.querySelectorAll('.dropdown-menu'));
-const navHeight = this.nav.navbar.nativeElement.clientHeight + 'px';
+  ngOnInit() {
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authListenerSubs = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+      });
+  }
 
-dropdownMenu.forEach((dropdown) => {
-  this.renderer.setStyle(dropdown, 'transform', `translateY(${navHeight})`);
-});
-}
+  onLogout() {
+    this.authService.logout();
+  }
 
-@HostListener('click', ['$event'])
-onClick(event) {
-const toggler = this.el.nativeElement.querySelector('.navbar-toggler');
-const togglerIcon = this.el.nativeElement.querySelector('.navbar-toggler-icon');
-if (event.target === toggler || event.target === togglerIcon) {
-  console.log('test');
-  setTimeout(() => {
-    this.transformDropdowns();
-  }, 351);
-}
-}
-
-@HostListener('document:scroll', ['$event'])
-onScroll() {
-this.transformDropdowns();
-}
-
-@HostListener('window:resize', ['$event'])
-onResize() {
-  this.transformDropdowns();
-}
-
-ngAfterViewInit() {
-this.transformDropdowns();
-}
-
+  ngOnDestroy() {
+    this.authListenerSubs.unsubscribe();
+  }
 }

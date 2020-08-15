@@ -41,6 +41,7 @@ export class InventoriesService {
               serial: inventory.serial,
               price: inventory.price,
               description: inventory.description,
+              creator: inventory.creator,
               createdDate: inventory.createdDate
             };
           }),
@@ -49,6 +50,7 @@ export class InventoriesService {
         })
       )
       .subscribe(transformedInventoriesData => {
+        console.log(transformedInventoriesData);
         this.inventories = transformedInventoriesData.inventories;
         this.inventoriesUpdated.next({
           inventories: [...this.inventories],
@@ -71,7 +73,8 @@ export class InventoriesService {
       condition: string,
       serial: string,
       price: string,
-      description: string
+      description: string,
+      creator: string
     }>("http://localhost:3000/api/inventories/" + id);
   }
 
@@ -158,7 +161,8 @@ export class InventoriesService {
         condition: condition,
         serial: serial,
         price: price,
-        description: description
+        description: description,
+        creator: null
       };
     }
     this.http

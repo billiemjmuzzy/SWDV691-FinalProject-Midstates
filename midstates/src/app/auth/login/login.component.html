@@ -1,0 +1,114 @@
+<div class="row">
+  <div class="col-md-4 mt-5 mx-auto">
+    <!-- Login Form -->
+    <mdb-card>
+      <mdb-card-header class="blue-accent white-text text-center py-4">
+        <h5>
+          <strong>Sign in</strong>
+        </h5>
+      </mdb-card-header>
+
+      <!--Card content-->
+      <mdb-card-body class="px-lg-5 pt-0">
+        <div class="text-center">
+          <mdb-spinner *ngIf="isLoading" spinnerColor="blue"></mdb-spinner>
+        </div>
+        <!-- Form -->
+        <form
+          class="text-center"
+          style="color: #757575;"
+          (submit)="onLogin(loginForm)"
+          #loginForm="ngForm"
+          *ngIf="!isLoading"
+        >
+          <!-- Email -->
+          <div class="md-form">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              ngModel
+              #emailInput="ngModel"
+              class="form-control"
+              mdbInput
+              required
+              email
+            />
+            <label for="materialLoginFormEmail">E-mail</label>
+            <mdb-error
+              *ngIf="
+                emailInput.invalid && (emailInput.dirty || emailInput.touched)
+              "
+              >Please enter a valid email address</mdb-error
+            >
+            <mdb-success
+              *ngIf="
+                emailInput.valid && (emailInput.dirty || emailInput.touched)
+              "
+              >Input valid</mdb-success
+            >
+          </div>
+
+          <!-- Password -->
+          <div class="md-form">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              ngModel
+              #passwordInput="ngModel"
+              class="form-control"
+              mdbInput
+              required
+            />
+            <label for="materialLoginFormPassword">Password</label>
+            <mdb-error
+              *ngIf="
+                passwordInput.invalid &&
+                (passwordInput.dirty || passwordInput.touched)
+              "
+              >Please enter your password</mdb-error
+            >
+            <mdb-success
+              *ngIf="
+                passwordInput.valid &&
+                (passwordInput.dirty || passwordInput.touched)
+              "
+              >Input valid</mdb-success
+            >
+          </div>
+
+          <div class="d-flex justify-content-around">
+            <div>
+              <!-- Remember me -->
+              <mdb-checkbox>Remember me</mdb-checkbox>
+            </div>
+            <div>
+              <!-- Forgot password -->
+              <a href="">Forgot password?</a>
+            </div>
+          </div>
+
+          <!-- Sign in button -->
+          <button
+            mdbBtn
+            color="primary"
+            outline="true"
+            rounded="true"
+            block="true"
+            class="my-4 waves-effect z-depth-0"
+            mdbWavesEffect
+            type="submit"
+          >
+            <mdb-icon fas icon="sign-in-alt"></mdb-icon>
+            Sign in
+          </button>
+        </form>
+        <!-- Form -->
+      </mdb-card-body>
+    </mdb-card>
+    <!-- Material form login -->
+  </div>
+  <!--column-->
+</div>
+<!--row-->

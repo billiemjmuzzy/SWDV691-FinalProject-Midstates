@@ -4,6 +4,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { Inventory } from '../inventory.model';
 import { InventoriesService } from '../inventories.service';
+import { AuthService } from "../../auth/auth.service";
 
 
 @Component({
@@ -16,23 +17,33 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   inventories: Inventory[] = [];
   isLoading = false;
   totalInventories = 0;
-  inventoriesPerPage = 2;
+  inventoriesPerPage = 5;
   currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
+  pageSizeOptions = [1, 5, 10, 25];
+  userIsAuthenticated = false;
+  userId: string;
   private inventoriesSub: Subscription;
+  private authStatusSub: Subscription;
 
-  constructor(public inventoriesService: InventoriesService) { }
+  constructor(public inventoriesService: InventoriesService, private authService: AuthService) { }
 
   ngOnInit() {
     this.isLoading = true;
     this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
-    // create subscription to get inventory data
+    this.userId = this.authService.getUserId();
     this.inventoriesSub = this.inventoriesService
       .getInventoryUpdateListener()
       .subscribe((inventoryData: { inventories: Inventory[], inventoryCount: number }) => {
         this.isLoading = false;
         this.totalInventories = inventoryData.inventoryCount;
         this.inventories = inventoryData.inventories;
+      });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
       });
   }
 
@@ -57,6 +68,8 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.inventoriesService.deleteInventory(inventoryId).subscribe(() => {
       this.inventoriesService.getInventories(this.inventoriesPerPage, this.currentPage);
+    }, () => {
+        this.isLoading = false;
     });
   }
 
@@ -64,6 +77,7 @@ export class InventoryViewComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // removes subscription and prevents memory links
     this.inventoriesSub.unsubscribe();
+    this.authStatusSub.unsubscribe();
 
   }
 

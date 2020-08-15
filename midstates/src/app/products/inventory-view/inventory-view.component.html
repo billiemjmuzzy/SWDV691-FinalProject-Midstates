@@ -85,11 +85,11 @@
                     {{ inventory.description }}
                   </div>
                 </div>
-
+                <!-- TODO Add the ability for super admin to delete  -->
                 <div
                   class="btn-group float-left mb-1"
                   role="group"
-                  aria-label="Basic example"
+                  *ngIf="userIsAuthenticated && userId == inventory.creator"
                 >
                   <button
                     mdbBtn

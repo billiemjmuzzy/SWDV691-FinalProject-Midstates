@@ -1,5 +1,7 @@
+import { AuthService } from './../../auth/auth.service';
+import { Subscription } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms"
 
 
@@ -14,7 +16,7 @@ import { mimeType } from "./mime-type.validator";
   templateUrl: './inventory-create.component.html',
   styleUrls: ['./inventory-create.component.css']
 })
-export class InventoryCreateComponent implements OnInit {
+export class InventoryCreateComponent implements OnInit, OnDestroy {
   enteredImage = '';
   enteredBrand = '';
   enteredYear = '';
@@ -29,14 +31,21 @@ export class InventoryCreateComponent implements OnInit {
   imagePreview: string;
   private mode = "create";
   private inventoryId: string;
+  private authStatusSub: Subscription;
 
   constructor(
     public inventoriesService: InventoriesService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
 
   ngOnInit() {
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false;
+      }
+    );
     this.form = new FormGroup({
       image: new FormControl(null, {
         validators: [Validators.required],
@@ -80,7 +89,8 @@ export class InventoryCreateComponent implements OnInit {
             condition: inventoryData.condition,
             serial: inventoryData.serial,
             price: inventoryData.price,
-            description: inventoryData.description
+            description: inventoryData.description,
+            creator: inventoryData.creator
           };
           this.form.setValue({
             image: this.inventory.imagePath,
@@ -143,6 +153,9 @@ export class InventoryCreateComponent implements OnInit {
       );
     }
     this.form.reset();
+  }
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
   }
 
 }
