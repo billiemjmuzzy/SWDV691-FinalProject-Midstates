@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+require("dotenv/config");
 
 exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
@@ -44,8 +45,7 @@ exports.userLogin = (req, res, next) => {
       }
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
-        // TODO update secret so it meets  the standards (update also in check-auth.js)
-        "secret_this_should_be_longer",
+        process.env.JWT_KEY,
         { expiresIn: "12h" }
       );
       res.status(200).json({
