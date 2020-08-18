@@ -4,7 +4,10 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from "@angular/router";
 
+import { environment } from "../../environments/environment";
 import { Inventory } from './inventory.model';
+
+const BACKEND_URL = environment.apiUrl + "/inventories/";
 
 
 @Injectable({
@@ -26,7 +29,7 @@ export class InventoriesService {
     const queryParams = `?pagesize=${inventoriesPerPage}&page=${currentPage}`;
     this.http
       .get<{ message: string, inventories: any, maxInventories: number }>(
-        'http://localhost:3000/api/inventories' + queryParams)
+        BACKEND_URL + queryParams)
       .pipe(
         map(inventoryData => {
           return {
@@ -75,7 +78,7 @@ export class InventoriesService {
       price: string,
       description: string,
       creator: string
-    }>("http://localhost:3000/api/inventories/" + id);
+    }>(BACKEND_URL + id);
   }
 
   /**
@@ -110,7 +113,7 @@ export class InventoriesService {
     inventoryData.append("description", description);
     this.http
       .post<{ message: string, inventory: Inventory }>(
-        "http://localhost:3000/api/inventories",
+        BACKEND_URL,
         inventoryData
       )
       .subscribe(responseData => {
@@ -166,7 +169,7 @@ export class InventoriesService {
       };
     }
     this.http
-      .put("http://localhost:3000/api/inventories/" + id, inventoryData)
+      .put(BACKEND_URL + id, inventoryData)
       .subscribe(response => {
         this.router.navigate(["/"]);
       });
@@ -175,6 +178,6 @@ export class InventoriesService {
 
   deleteInventory(inventoryId: string) {
     return this.http
-      .delete("http://localhost:3000/api/inventories/" + inventoryId)
+      .delete("BACKEND_URL/" + inventoryId)
   }
 }
