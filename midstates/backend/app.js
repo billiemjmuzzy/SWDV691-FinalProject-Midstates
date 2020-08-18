@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-require("dotenv/config");
+// require("dotenv/config");
 
 const inventoriesRoutes = require("./routes/inventories");
 const userRoutes = require("./routes/user");

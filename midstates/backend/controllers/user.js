@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-require("dotenv/config");
+// require("dotenv/config");
 
 exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
